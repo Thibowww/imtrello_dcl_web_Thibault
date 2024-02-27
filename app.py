@@ -3,7 +3,12 @@ from flask import Flask
 
 from database import *
 
+
 app = Flask(__name__)
+
+db.init_app(app)
+with app.test_request_context():
+ init_database()
 
 
 @app.route('/')
