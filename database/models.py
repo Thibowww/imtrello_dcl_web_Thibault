@@ -5,3 +5,15 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.Text)
     isDone = db.Column(db.Boolean)
+
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    label = db.Column(db.Text)
+    isDone = db.Column(db.Boolean)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    label = db.Column(db.Text)
+    isDone = db.Column(db.Boolean)
