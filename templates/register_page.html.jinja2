@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+    <body>
+        <h1>Register</h1>
+        <p>bruah</p>
+        <form action="{{ url_for("register_function") }}" method="post">
+            <p><input type="text" name="login" placeholder="Votre identifiant"></p>
+            <p><input type="text" name="password" placeholder="Votre mot de passe"></p>
+            <p><input type="text" name="confirm_password" placeholder="Confirmez votre mot de passe"></p>
+        <button>
+            Register
+        </button>
+        </form>
+
+    </body>
+</html>

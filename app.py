@@ -15,11 +15,18 @@ def display_home_page():  # put application's code here
 def display_login_page():
     return flask.render_template("login_page.html.jinja2")
 
+@app.route('/register')
+def display_register_page():
+    return flask.render_template("register_page.html.jinja2")
 
 @app.route('/myprojects')
 def display_projects():
     return flask.render_template("my_projects.html.jinja2")
 
+@app.route('/register', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
+def register_function():
+    return
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/myprojects', methods=['GET', 'POST'])
