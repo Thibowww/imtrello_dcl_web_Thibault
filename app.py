@@ -1,8 +1,7 @@
 import flask
 from flask import Flask
 
-from database import *
-
+from database.database import db, init_database
 
 app = Flask(__name__)
 
@@ -12,7 +11,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 with app.test_request_context():
- init_database()
+    init_database()
 
 
 @app.route('/')
