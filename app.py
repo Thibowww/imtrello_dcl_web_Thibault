@@ -1,6 +1,8 @@
 import flask
 from flask import Flask
 
+from database import *
+
 app = Flask(__name__)
 
 
