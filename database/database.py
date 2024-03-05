@@ -39,6 +39,12 @@ def delete_task(task_id):
         db.session.commit()
     return task
 
+def delete_all_tasks():
+    deleted_tasks = Task.query.delete()
+    db.session.commit()
+    return deleted_tasks
+
+
 def get_tasks_by_status(is_done):
     return Task.query.filter_by(isDone=is_done).all()
 
@@ -50,5 +56,3 @@ def get_all_tasks_sorted_by_label():
 
 def search_tasks_by_keyword(keyword):
     return Task.query.filter(Task.label.ilike(f'%{keyword}%')).all()
-
-
