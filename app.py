@@ -25,18 +25,25 @@ def display_home_page():  # put application's code here
 def display_login_page():
     return flask.render_template("login_page.html.jinja2")
 
+
 @app.route('/register')
 def display_register_page():
     return flask.render_template("register_page.html.jinja2")
+
 
 @app.route('/myprojects')
 def display_projects():
     return flask.render_template("my_projects.html.jinja2")
 
+
 @app.route('/register', methods=['GET', 'POST'])
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/myprojects', methods=['GET', 'POST'])
 def register_function():
-    return
+    register_check, errors = register_checker(flask.request.form)
+    if register_check:
+        return display_projects()
+    else:
+        return display_login_page()
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/myprojects', methods=['GET', 'POST'])
@@ -44,6 +51,8 @@ def login_function():
     login_check, errors = login_checker(flask.request.form)
     if login_check:
         return display_projects()
+    else:
+        return display_login_page()
 
 
 def login_checker(form):
