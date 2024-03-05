@@ -4,3 +4,4 @@ from database.database import db, init_database
 
 def create_user(username, password):
     new_user = User(username=username, password=password)
+

@@ -52,5 +52,11 @@ def login_checker(form):
     return login_check, errors
 
 
+def register_checker(form):
+    register_check = True
+    errors = ["user does already exist", "password differences"]
+    return register_check, errors
+
+
 if __name__ == '__main__':
     app.run()
