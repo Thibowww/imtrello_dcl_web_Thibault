@@ -2,6 +2,8 @@ import flask
 from flask import Flask, render_template, request, redirect
 
 from database.database import db, init_database
+from manage_users import *
+
 
 app = Flask(__name__)
 
@@ -56,6 +58,12 @@ def login_checker(form):
     login_check = True
     errors = ["id does not exist", "wrong password"]
     return login_check, errors
+
+
+def register_checker(form):
+    register_check = True
+    errors = ["user does already exist", "password differences"]
+    return register_check, errors
 
 
 if __name__ == '__main__':
