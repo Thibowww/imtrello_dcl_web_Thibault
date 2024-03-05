@@ -2,6 +2,8 @@ import flask
 from flask import Flask
 
 from database.database import db, init_database
+from manage_users import *
+
 
 app = Flask(__name__)
 
