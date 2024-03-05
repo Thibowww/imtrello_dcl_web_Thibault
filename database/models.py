@@ -1,20 +1,21 @@
 from database.database import db
 
 
-class User(db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Text)
-    password = db.Column(db.Boolean)
-    first_name = db.Column(db.Text)
-    last_name = db.Column(db.Text)
-
-
-user_to_project = db.Table('user to project',
-                           db.Column("project_id", db.Integer, db.ForeignKey('team.id')),
+user_to_project = db.Table('user_to_project',
+                           db.Column("project_id", db.Integer, db.ForeignKey('project.id')),
                            db.Column("user_id", db.Integer, db.ForeignKey('user.id')),
                            )
 
 
 class Project(db.Model):
-    project_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.Text)
+    users = db.relationship('User', backref='projects', secondary=user_to_project)  # Sport <-> Player relationship
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Text)
+    password = db.Column(db.Boolean)
+    first_name = db.Column(db.Text)
+    last_name = db.Column(db.Text)
