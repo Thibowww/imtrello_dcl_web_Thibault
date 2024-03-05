@@ -1,5 +1,5 @@
 import flask
-from flask import Flask
+from flask import Flask, render_template, request, redirect
 
 from database.database import db, init_database
 
@@ -34,7 +34,15 @@ def display_projects():
 @app.route('/register', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def register_function():
-    return
+    donnees = request.form
+    username = donnees.get("username")
+    password = donnees.get("password")
+    password_confirm = donnees.get("password_confirm")
+    if password == password_confirm:
+        return render_template("login_page.html.jinja2")
+    else :
+        return render_template("register_page.html.jinja2")
+
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/myprojects', methods=['GET', 'POST'])
