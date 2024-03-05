@@ -39,7 +39,6 @@ def display_projects():
 @app.route('/register', methods=['GET', 'POST'])
 @app.route('/myprojects', methods=['GET', 'POST'])
 def register_function():
-<<<<<<< HEAD
     donnees = request.form
     username = donnees.get("username")
     password = donnees.get("password")
@@ -48,14 +47,6 @@ def register_function():
         return render_template("login_page.html.jinja2")
     else :
         return render_template("register_page.html.jinja2")
-
-=======
-    register_check, errors = register_checker(flask.request.form)
-    if register_check:
-        return display_projects()
-    else:
-        return display_login_page()
->>>>>>> 6b23887fb09f9359c05f371990eaba18ab8f380f
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/myprojects', methods=['GET', 'POST'])
