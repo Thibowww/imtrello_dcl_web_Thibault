@@ -1,8 +1,8 @@
 import flask
 from flask import Flask, render_template, request, redirect
 
-from database.database import db, init_database
 from manage_users import *
+from database.database import db, init_database
 
 
 app = Flask(__name__)
@@ -43,7 +43,8 @@ def register_function():
     username = donnees.get("username")
     password = donnees.get("password")
     password_confirm = donnees.get("password_confirm")
-    if password == password_confirm:
+    register_check, errors = register_checker(username, password, password_confirm)
+    if register_check:
         return render_template("login_page.html.jinja2")
     else :
         return render_template("register_page.html.jinja2")
@@ -64,10 +65,11 @@ def login_checker(form):
     return login_check, errors
 
 
-def register_checker(form):
-    register_check = True
+def register_checker(username, password, password_confirm):
+    register_check = (password == password_confirm)
     errors = ["user does already exist", "password differences"]
-    return register_check, errors
+    error = errors[0]
+    return register_check, error
 
 
 if __name__ == '__main__':
