@@ -9,10 +9,18 @@ def create_user(first_name, last_name, email, username, password):
     return
 
 def check_password(username, password):
-    if username == User.query.filter_by(username=username).first().username:
-        return password == User.query.filter_by(username=username).first().password
+    if User.query.filter_by(username=username).first()!=None:
+        if username == User.query.filter_by(username=username).first().username:
+            return password == User.query.filter_by(username=username).first().password
     return False
 
+def register_check_data(email, username):
+    error=[]
+    if User.query.filter_by(email=email).first()!=None:
+        error.append("Email already registered")
+    if User.query.filter_by(username=username).first()!=None:
+        error.append("Username already registered")
+    return error
 def create_project():
     new_project = Project()
     return

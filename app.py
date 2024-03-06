@@ -54,7 +54,6 @@ def display_projects():
 
 
 @app.route('/register', methods=['GET', 'POST'])
-#@app.route('/login', methods=['GET', 'POST'])
 def register_function():
     donnees = request.form
     email = donnees.get("email")
@@ -63,21 +62,38 @@ def register_function():
     username = donnees.get("username")
     password = donnees.get("password")
     password_confirm = donnees.get("password_confirm")
-    register_check, errors = register_checker(email, first_name, last_name, username, password, password_confirm)
+    register_check, errors_data, errors_password = register_checker(email, username, password, password_confirm)
     if register_check:
         hash = password + app.secret_key
         hash = hashlib.sha1(hash.encode())
         password1 = hash.hexdigest()
         create_user(first_name, last_name, email, username, password1)
-        return render_template("login_page.html.jinja2")
+        return display_login_page()
     else:
-        return render_template("register_page.html.jinja2")
+        return display_home_page()
 
-def register_checker(email, first_name, last_name, username, password, password_confirm):
-    register_check = (password == password_confirm)
-    errors = ["user does already exist", "password differences"]
-    error = errors[0]
-    return register_check, error
+def register_checker(email, username, password, password_confirm):
+    '''
+    vérifier que les mots de passe correspondent
+    vérifier qu'ils respectent certains critères
+    vérifier que l'username ou l'email n'existe pas déjà
+    '''
+    register_check=True
+    errors_data = register_check_data(email, username)
+    print(errors_data)
+    password_error = []
+    if password != password_confirm:
+        password_error.append("Passwords don't match")
+        register_check=False
+    print(register_check)
+    if len(password)<8:
+        password_error.append("Password too short, use at least 8 caracteres")
+        register_check = False
+    print(register_check)
+    if len(errors_data)!=0:
+        register_check=False
+    print(register_check)
+    return register_check, errors_data, password_error
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/myprojects', methods=['GET', 'POST'])
@@ -104,7 +120,11 @@ def login_checker(username, password):
     error="User doesn't exist or wrong password"
     return login_check, error
 
+@app.route('/home_page', methods=['GET', 'POST'])
 
+def logout_function():
+    session.pop('username', None)
+    return display_home_page()
 
 
 
