@@ -16,6 +16,7 @@ class Project(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text)
-    password = db.Column(db.Boolean)
+    password = db.Column(db.Text)
+    email = db.Column(db.Text)
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)

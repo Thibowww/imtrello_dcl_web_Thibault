@@ -6,11 +6,13 @@
         <h1>Register</h1>
         <p>bruah</p>
         <form action="{{ url_for("register_function") }}" method="post">
-            <p><input type="text" name="username" placeholder="Votre identifiant" required></p>
-            <p><input type="password" name="password" placeholder="Votre mot de passe" required></p>
-            <p><input type="password" name="password_confirm" placeholder="Confirmez votre mot de passe" required></p>
-            <p><input type="submit" name="Register"></p>
+            <p><input type="text" name="first_name" placeholder="First name" required></p>
+            <p><input type="text" name="last_name" placeholder="Last name" required></p>
+            <p><input type="email" placeholder="Email" required></p>
+            <p><input type="text" name="username" placeholder="Username" required></p>
+            <p><input type="password" name="password" placeholder="Password" required></p>
+            <p><input type="password" name="password_confirm" placeholder="Confirm password" required></p>
+            <p><input type="submit" value="Register"></p>
         </form>
-
     </body>
 </html>
