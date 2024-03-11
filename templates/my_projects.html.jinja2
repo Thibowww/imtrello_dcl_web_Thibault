@@ -1,11 +1,54 @@
-<html>
-    <head>
-        <title>MES PROJETS</title>
-    </head>
-    <body>
-        <h1>MES PROJETS</h1>
-        <p>omg tema la taille des projets</p>
-        <p> voici un projet en 4K </p>
-    
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects</title>
+<style>
+    /* Style the form to be hidden initially */
+    #myForm {
+        display: none;
+    }
+</style>
+</head>
+<body>
+<h1>MES PROJETS</h1>
+
+<!-- Button to open the form -->
+<button id="myButton" onclick="formToAddProject()">Add Project</button>
+
+<!-- Form -->
+<div id="myForm">
+    <h2>Add a project</h2>
+    <form action="/add_project" method="POST">
+        <!-- Add your form fields here -->
+        <label for="label">Label:</label>
+        <input type="text" id="label" name="label"><br><br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea><br><br>
+        <label for="deadline_date">Deadline Date:</label>
+        <input type="date" id="deadline_date" name="deadline_date"><br><br>
+        <label for="deadline_time">Deadline Time:</label>
+        <input type="time" id="deadline_time" name="deadline_time"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+    function formToAddProject() {
+        var button = document.getElementById("myButton");
+        button.style.display = "none";
+        var form = document.getElementById("myForm");
+        form.style.display = "block";
+    }
+</script>
+</body>
 </html>
+{% if errors %}
+    Errors:
+    <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

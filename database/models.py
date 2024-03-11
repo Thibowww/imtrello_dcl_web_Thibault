@@ -14,6 +14,8 @@ class Task(db.Model):
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.Text)
+    description = db.Column(db.Text)
+    deadline= db.Column(db.DateTime)
     isDone = db.Column(db.Boolean)
 
 
