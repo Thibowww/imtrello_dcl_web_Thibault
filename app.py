@@ -1,10 +1,7 @@
 
 import hashlib
 from functools import wraps
-import flask
-from flask import flask,request
 import datetime
-
 import flask
 from flask import Flask, render_template, request, redirect, session, url_for
 
