@@ -132,9 +132,12 @@ def logout_function():
 
 
 
-@app.route('/addproject', methods=['GET', 'POST'])
+@app.route('/addproject')
+
 def display_add_project():
     return flask.render_template("add_project.html.jinja2")
+
+@app.route('/addproject', methods=['GET', 'POST'])
 def fonction_formulaire_create_project():
     form_est_valide, errors = formulaire_est_valide(flask.request.form)
     if not form_est_valide:
@@ -167,11 +170,11 @@ def formulaire_est_valide(form):
 
 
 def afficher_formulaire_create_project(form, errors):
-    return flask.render_template("my_projects.html.jinja2", errors=errors)
+    return display_projects()
 
 
 def traitement_formulaire_create_project(form):
-    return flask.render_template("my_projects.html.jinja2")
+    return display_projects()
 
 
 def modify_project(project_id):

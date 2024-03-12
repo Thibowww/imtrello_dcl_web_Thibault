@@ -4,19 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects</title>
-<style>
-    /* Style the form to be hidden initially */
-    #myForm {
-        display: none;
-    }
-</style>
 </head>
 <body>
 <h1>MES PROJETS</h1>
 
 <div>
     <h2>Add a project</h2>
-    <form action= "{{ url_for("fonction_formulaire_create_project") }}" method="POST">
+    <form action= "{{ url_for("fonction_formulaire_create_project") }}" method="post">
         <!-- Add your form fields here -->
         <label for="label">Label:</label>
         <input type="text" id="label" name="label"><br><br>
@@ -29,7 +23,6 @@
         <input type="submit" value="Submit">
     </form>
 </div>
-
 </body>
 </html>
 {% if errors %}
