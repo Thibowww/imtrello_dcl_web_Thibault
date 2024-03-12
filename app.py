@@ -110,8 +110,9 @@ def formulaire_est_valide(form):
 def afficher_formulaire_create_project(form, errors):
     return flask.render_template("my_projects.html.jinja2", errors=errors)
 
-def traitement_formulaire_create_project(form, errors):
 
+def traitement_formulaire_create_project(form, errors):
+    return
 
 
 def modify_project(project_id):
