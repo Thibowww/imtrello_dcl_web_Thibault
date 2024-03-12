@@ -131,27 +131,10 @@ def logout_function():
 
 
 
-def create_project():
-    name = request.form.get("name")
-    description = request.form.get("description")
-    deadline_str = request.form.get("deadline")  # Assuming the form sends a string representation of datetime
 
-    # Check if name is provided
-    if not name:
-        return "Error: Project name is required"
-
-    # Parse deadline string to datetime format
-    deadline = None
-    if deadline_str:
-        try:
-            deadline = datetime.strptime(deadline_str, "%Y-%m-%d %H:%M:%S")  # Adjust format as needed
-        except ValueError:
-            return "Error: Invalid deadline format. Please use YYYY-MM-DD HH:MM:SS"
-
-    add_project(name, description, deadline)
-    return
-
-
+@app.route('/addproject', methods=['GET', 'POST'])
+def display_add_project():
+    return flask.render_template("add_project.html.jinja2")
 def fonction_formulaire_create_project():
     form_est_valide, errors = formulaire_est_valide(flask.request.form)
     if not form_est_valide:
@@ -187,8 +170,8 @@ def afficher_formulaire_create_project(form, errors):
     return flask.render_template("my_projects.html.jinja2", errors=errors)
 
 
-def traitement_formulaire_create_project(form, errors):
-    return
+def traitement_formulaire_create_project(form):
+    return flask.render_template("my_projects.html.jinja2")
 
 
 def modify_project(project_id):
