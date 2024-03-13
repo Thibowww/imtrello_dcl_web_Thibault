@@ -20,9 +20,8 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.Text)
     users = db.relationship('User', backref='projects', secondary=user_to_project)  # Sport <-> Player relationship
-    label = db.Column(db.Text)
     description = db.Column(db.Text)
-    deadline= db.Column(db.DateTime)
+    deadline = db.Column(db.DateTime)
     isDone = db.Column(db.Boolean)
 
 

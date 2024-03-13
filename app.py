@@ -1,7 +1,7 @@
 
 import hashlib
 from functools import wraps
-import datetime
+from datetime import datetime
 import flask
 from flask import Flask, render_template, request, redirect, session, url_for
 
@@ -139,22 +139,36 @@ def display_add_project():
 
 @app.route('/addproject', methods=['GET', 'POST'])
 def fonction_formulaire_create_project():
-    form_est_valide, errors = formulaire_est_valide(flask.request.form)
-    if not form_est_valide:
-        return afficher_formulaire_create_project(flask.request.form, errors)
+    if request.method == 'POST':
+        form_est_valide, errors = formulaire_est_valide(flask.request.form)
+        if not form_est_valide:
+            print("Le formulaire n'est pas valide. Erreurs :", errors)  # Afficher les erreurs dans la console
+            return display_add_project()
+        else:
+            project_name = request.form.get("project_name")
+            description = request.form.get("description")
+            deadline_date = request.form.get("deadline_date")
+            deadline_time = request.form.get("deadline_time")
+            deadline_str = deadline_date + ' ' + deadline_time
+            deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
+            add_project(project_name, description, deadline)
+            return redirect(url_for('display_projects'))  # Rediriger vers la page des projets après avoir ajouté le projet
     else:
-        return traitement_formulaire_create_project(flask.request.form)
+        # Si la méthode de la requête n'est pas POST, afficher simplement le formulaire
+        return display_add_project()
+
 
 
 def formulaire_est_valide(form):
-    name = request.form.get("name")
+    project_name = request.form.get("project_name")
     description = request.form.get("description")
-    deadline_str = request.form.get("deadline")
+    deadline_time = request.form.get("deadline_time")
+    deadline_date = request.form.get("deadline_time")
 
     result = True
     errors = []
 
-    if not name:
+    if not project_name:
         errors += ["Error: Project name is required"]
         result = False
 
@@ -162,19 +176,16 @@ def formulaire_est_valide(form):
         errors += ["Error: Project description is required"]
         result = False
 
-    if not deadline_str:
-        errors += ["Error: Project deadline is required"]
+    if not deadline_date:
+        errors += ["Error: Project date deadline is required"]
+        result = False
+
+    if not deadline_time:
+        errors += ["Error: Project time deadline is required"]
         result = False
 
     return result, errors
 
-
-def afficher_formulaire_create_project(form, errors):
-    return display_projects()
-
-
-def traitement_formulaire_create_project(form):
-    return display_projects()
 
 
 def modify_project(project_id):
