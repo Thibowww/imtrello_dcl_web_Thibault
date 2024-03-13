@@ -7,8 +7,7 @@ from flask import Flask, render_template, request, redirect, session, url_for
 
 from manage_users import *
 from database.database import db, init_database
-from projects import add_project, update_project
-
+from projects import add_project, update_project, get_all_projects
 
 app = Flask(__name__)
 
@@ -52,6 +51,7 @@ def is_connected(f):
 @app.route('/myprojects')
 @is_connected
 def display_projects():
+    projects = get_all_projects()
     return flask.render_template("my_projects.html.jinja2")
 
 
