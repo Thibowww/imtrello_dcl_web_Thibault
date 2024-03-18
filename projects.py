@@ -50,6 +50,22 @@ def add_project(project_name, description, deadline):
     return new_project
 
 
+
+def update_project_in_database(project_id, project_name=None, description=None, deadline=None, is_done=None):
+    project = db.session.query(Project).get(project_id)
+    if project:
+        if project_name is not None:
+            project.project_name = project_name
+        if description is not None:
+            project.description = description
+        if deadline is not None:
+            project.deadline = deadline
+        if is_done is not None:
+            project.isDone = is_done
+        db.session.commit()
+    return project
+
+
 def get_all_projects():
     """Retrieve all projects from the database."""
     return Project.query.all()
@@ -72,7 +88,7 @@ def update_project(project_id, label=None, is_done=None):
     return project
 
 
-def delete_project(project_id):
+def delete_project_in_database(project_id):
     """Delete a project by its ID."""
     project = Project.query.get(project_id)
     if project:
