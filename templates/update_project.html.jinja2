@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Modifier le Projet</h1>
+    <form action="{{ url_for('update_project', project_id=project.id) }}" method="post">
+    <label for="project_name">Nom du Projet:</label><br>
+    <input type="text" id="project_name" name="project_name" value="{{ project.project_name }}"><br>
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description">{{ project.description }}</textarea><br>
+    <label for="deadline_date">Date Limite:</label><br>
+    <input type="date" id="deadline_date" name="deadline_date" value="{{ project.deadline.strftime('%Y-%m-%d') }}"><br>
+    <label for="deadline_time">Heure Limite:</label><br>
+    <input type="time" id="deadline_time" name="deadline_time" value="{{ project.deadline.strftime('%H:%M') }}"><br>
+    <label for="is_done">Terminé:</label>
+    <input type="checkbox" id="is_done" name="is_done" {% if project.isDone %}checked{% endif %}><br>
+    <input type="submit" value="Enregistrer">
+</form>
+</body>
+</html>
