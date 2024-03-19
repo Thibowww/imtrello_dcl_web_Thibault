@@ -43,8 +43,8 @@ def delete_task_from_project(task_id):
     return task
 
 
-def add_project(project_name, description, deadline):
-    new_project = Project(project_name=project_name, users=[], description=description, deadline=deadline, isDone=False)
+def add_project(project_name, description, deadline, manager_name):
+    new_project = Project(project_name=project_name, manager=manager_name, description=description, deadline=deadline, isDone=False)
     db.session.add(new_project)
     db.session.commit()
     return new_project

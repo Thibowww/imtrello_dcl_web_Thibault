@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Détails du Projet : {{ project.project_name }}</h1>
+<p>Manager : {{ project.manager }}</p>
 <p>Description : {{ project.description }}</p>
 <p>Date Limite : {{ project.deadline }}</p>
 <a href="{{ url_for('update_project', project_id=project.id) }}">Modifier le projet</a>
