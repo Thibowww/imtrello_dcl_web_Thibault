@@ -1,5 +1,5 @@
 
-<form id="editProjectForm">
+<form id="editProjectForm" action="{{ url_for('edit_project_form', project_id=project.id) }}" method="post">
     <label for="edit_project_name">Nom du Projet:</label><br>
     <input type="text" id="edit_project_name" name="project_name" value="{{ project.project_name }}"><br>
     <label for="edit_description">Description:</label><br>
