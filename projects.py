@@ -1,4 +1,4 @@
-from database.models import Task, Project
+from database.models import Task, Project, User
 from database.database import db
 
 
@@ -47,6 +47,7 @@ def add_project(project_name, description, deadline, manager_name):
     new_project = Project(project_name=project_name, manager=manager_name, description=description, deadline=deadline, isDone=False)
     db.session.add(new_project)
     db.session.commit()
+    new_project.users.add(User.query.filter_by(username=manager_name).first())
     return new_project
 
 
