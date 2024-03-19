@@ -157,13 +157,14 @@ def fonction_formulaire_create_project():
             print("Le formulaire n'est pas valide. Erreurs :", errors)  # Afficher les erreurs dans la console
             return display_add_project()
         else:
+            manager_name = session.get('username')
             project_name = request.form.get("project_name")
             description = request.form.get("description")
             deadline_date = request.form.get("deadline_date")
             deadline_time = request.form.get("deadline_time")
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
-            add_project(project_name, description, deadline)
+            add_project(project_name, description, deadline, manager_name)
             return redirect(url_for('display_projects'))  # Rediriger vers la page des projets après avoir ajouté le projet
     else:
         # Si la méthode de la requête n'est pas POST, afficher simplement le formulaire
@@ -182,10 +183,6 @@ def formulaire_est_valide(form):
 
     if not project_name:
         errors += ["Error: Project name is required"]
-        result = False
-
-    if not description:
-        errors += ["Error: Project description is required"]
         result = False
 
     if not deadline_date:
