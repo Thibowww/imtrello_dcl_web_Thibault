@@ -222,10 +222,6 @@ def formulaire_est_valide(form):
         errors += ["Error: Project name is required"]
         result = False
 
-    if not description:
-        errors += ["Error: Project description is required"]
-        result = False
-
     if not deadline_date:
         errors += ["Error: Project date deadline is required"]
         result = False
