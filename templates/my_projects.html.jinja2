@@ -14,7 +14,11 @@
             Add Project
             </button>
         </form>
-
+<form action="{{ url_for("logout_function") }}" method="get">
+            <button>
+            Logout
+            </button>
+        </form>
 </body>
 </html>
 {% if errors %}
