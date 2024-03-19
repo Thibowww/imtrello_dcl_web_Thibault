@@ -10,7 +10,8 @@
 <h1>Détails du Projet : {{ project.project_name }}</h1>
 <p>Description : {{ project.description }}</p>
 <p>Date Limite : {{ project.deadline }}</p>
-<a href="{{ url_for('update_project', project_id=project.id) }}">Modifier le projet</a>
+<button id="edit-project-btn">Modifier le projet</button>
+<div id="edit-project-form-container"></div>
 <br><br>
 <form action="{{ url_for('delete_project', project_id=project.id) }}" method="post"
       onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce projet?');">
@@ -18,3 +19,22 @@
 </form>
 </body>
 </html>
+<script>
+document.getElementById('edit-project-btn').addEventListener('click', function() {
+    // Effectuer une requête AJAX pour récupérer le formulaire de modification
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ url_for("edit_project_form", project_id=project.id) }}', true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Afficher le formulaire dans le conteneur approprié
+            document.getElementById('edit-project-form-container').innerHTML = xhr.responseText;
+        } else {
+            // Afficher un message d'erreur en cas d'échec du chargement du formulaire
+            console.error('Failed to load edit project form');
+        }
+    };
+    xhr.send();
+});
+</script>
+

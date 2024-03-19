@@ -4,7 +4,6 @@ from database.database import db
 
 # Functions to manage tasks within projects
 def add_task_to_project(project_id, label, is_done=False):
-    """Add a new task to a project."""
     project = Project.query.get(project_id)
     if project:
         new_task = Task(label=label, isDone=is_done, project_id=project_id)
@@ -15,7 +14,6 @@ def add_task_to_project(project_id, label, is_done=False):
 
 
 def get_tasks_in_project(project_id):
-    """Retrieve all tasks within a project."""
     project = Project.query.get(project_id)
     if project:
         return project.tasks

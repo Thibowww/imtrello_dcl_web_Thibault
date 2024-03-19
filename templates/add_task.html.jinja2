@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div>
+    <h2>Add a task</h2>
+    <form action= "{{ url_for('fonction_formulaire_create_task') }}" method="post">
+        <label for="task_name">Project Name:</label>
+        <input type="text" id="project_name" name="project_name"><br><br>
+        <label for="deadline_date">Deadline Date:</label>
+        <input type="date" id="deadline_date" name="deadline_date"><br><br>
+        <label for="deadline_time">Deadline Time:</label>
+        <input type="time" id="deadline_time" name="deadline_time"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
+{% if errors %}
+    Errors:
+    <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
