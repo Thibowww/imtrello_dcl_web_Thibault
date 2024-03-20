@@ -210,6 +210,8 @@ def edit_project_form(project_id):
             description = request.form.get('description')
             deadline_date = request.form.get('deadline_date')
             deadline_time = request.form.get('deadline_time')
+            new_developers = request.form.get('new_developers')
+
             is_done = True if request.form.get('is_done') == 'on' else False
 
             # Valider et convertir la date et l'heure de la deadline en un objet datetime

@@ -4,6 +4,8 @@
     <input type="text" id="edit_project_name" name="project_name" value="{{ project.project_name }}"><br>
     <label for="edit_description">Description:</label><br>
     <textarea id="edit_description" name="description">{{ project.description }}</textarea><br>
+    <label for="edit_project_name">Nouveaux développeurs:</label><br>
+    <input type="text" id="edit_project_name" name="new_developers"><br>
     <label for="edit_deadline_date">Date Limite:</label><br>
     <input type="date" id="edit_deadline_date" name="deadline_date" value="{{ project.deadline.strftime('%Y-%m-%d') }}"><br>
     <label for="edit_deadline_time">Heure Limite:</label><br>
