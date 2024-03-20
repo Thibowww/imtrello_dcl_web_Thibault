@@ -52,7 +52,7 @@ def is_connected(f):
 @app.route('/myprojects')
 @is_connected
 def display_projects():
-    projects = get_all_projects()
+    projects = get_all_projects(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects)
 
 
@@ -148,42 +148,6 @@ def display_project_details(project_id):
         return "Project not found", 404
 
 
-@app.route('/update_project/<int:project_id>', methods=['GET', 'POST'])
-def update_project(project_id):
-    project = get_project_by_id(project_id)
-    if project:
-        if request.method == 'POST':
-            project_name = request.form.get('project_name')
-            description = request.form.get('description')
-            deadline_date = request.form.get('deadline_date')
-            deadline_time = request.form.get('deadline_time')
-            is_done = True if request.form.get('is_done') == 'on' else False
-
-            # Valider et convertir la date et l'heure de la deadline en un objet datetime
-            if deadline_date and deadline_time:
-                deadline_str = deadline_date + ' ' + deadline_time
-                try:
-                    deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
-                except ValueError:
-                    return "Format de date invalide", 400
-            else:
-                return "Les champs de date et d'heure sont requis", 400
-
-            # Mettre à jour le projet dans la base de données
-            update_project_in_database(project_id,
-                                       project_name=project_name,
-                                       description=description,
-                                       deadline=deadline,
-                                       is_done=is_done)
-            # Rediriger l'utilisateur vers une page de confirmation ou toute autre page appropriée
-            return redirect(url_for('display_projects'))
-        else:
-            deadline_date = project.deadline.strftime('%Y-%m-%d')
-            deadline_time = project.deadline.strftime('%H:%M')
-            return render_template('update_project.html.jinja2', project=project, deadline_date=deadline_date, deadline_time=deadline_time)
-    else:
-        return "Projet non trouvé", 404
-
 
 @app.route('/addproject', methods=['GET', 'POST'])
 def fonction_formulaire_create_project():
@@ -193,13 +157,14 @@ def fonction_formulaire_create_project():
             print("Le formulaire n'est pas valide. Erreurs :", errors)  # Afficher les erreurs dans la console
             return display_add_project()
         else:
+            manager_name = session.get('username')
             project_name = request.form.get("project_name")
             description = request.form.get("description")
             deadline_date = request.form.get("deadline_date")
             deadline_time = request.form.get("deadline_time")
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
-            add_project(project_name, description, deadline)
+            add_project(project_name, description, deadline, manager_name)
             return redirect(url_for('display_projects'))  # Rediriger vers la page des projets après avoir ajouté le projet
     else:
         # Si la méthode de la requête n'est pas POST, afficher simplement le formulaire
@@ -245,6 +210,11 @@ def edit_project_form(project_id):
             description = request.form.get('description')
             deadline_date = request.form.get('deadline_date')
             deadline_time = request.form.get('deadline_time')
+            new_developers = request.form.get('new_developers')
+            if new_developers != "":
+                users = new_developers.split(',')
+            else :
+                developers = None
             is_done = True if request.form.get('is_done') == 'on' else False
 
             # Valider et convertir la date et l'heure de la deadline en un objet datetime
@@ -258,7 +228,7 @@ def edit_project_form(project_id):
                 return "Les champs de date et d'heure sont requis", 400
 
             # Mettre à jour le projet dans la base de données
-            update_project_in_database(project_id,
+            update_project_in_database(project_id,developers=users,
                                        project_name=project_name,
                                        description=description,
                                        deadline=deadline,

@@ -10,20 +10,22 @@ class Task(db.Model):
     # Define a relationship with the Project model
     project = db.relationship('Project', backref=db.backref('tasks', lazy=True))
 
+
 user_to_project = db.Table('user_to_project',
                            db.Column("project_id", db.Integer, db.ForeignKey('project.id')),
                            db.Column("user_id", db.Integer, db.ForeignKey('user.id')),
                            )
 
 
-
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.Text)
-    users = db.relationship('User', backref='projects', secondary=user_to_project)  # Sport <-> Player relationship
+    manager = db.Column(db.Text)
+    users = db.relationship('User', backref='projects', secondary=user_to_project)  # Project <-> User relationship
     description = db.Column(db.Text)
     deadline = db.Column(db.DateTime)
     isDone = db.Column(db.Boolean)
+
 
 
 class User(db.Model):

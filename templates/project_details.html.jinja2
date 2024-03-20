@@ -8,6 +8,13 @@
 </head>
 <body>
 <h1>Détails du Projet : {{ project.project_name }}</h1>
+<p>Manager : {{ project.manager }}</p>
+<p>Développeurs :</p>
+<ul>
+    {% for user in project.users %}
+        <li> {{ user.username }}</li>
+    {% endfor %}
+</ul>
 <p>Description : {{ project.description }}</p>
 <p>Date Limite : {{ project.deadline }}</p>
 <button id="edit-project-btn">Modifier le projet</button>
