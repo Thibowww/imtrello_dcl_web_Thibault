@@ -52,7 +52,7 @@ def is_connected(f):
 @app.route('/myprojects')
 @is_connected
 def display_projects():
-    projects = get_all_projects()
+    projects = get_all_projects(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects)
 
 
@@ -211,7 +211,10 @@ def edit_project_form(project_id):
             deadline_date = request.form.get('deadline_date')
             deadline_time = request.form.get('deadline_time')
             new_developers = request.form.get('new_developers')
-
+            if new_developers != "":
+                users = new_developers.split(',')
+            else :
+                developers = None
             is_done = True if request.form.get('is_done') == 'on' else False
 
             # Valider et convertir la date et l'heure de la deadline en un objet datetime
@@ -225,7 +228,7 @@ def edit_project_form(project_id):
                 return "Les champs de date et d'heure sont requis", 400
 
             # Mettre à jour le projet dans la base de données
-            update_project_in_database(project_id,
+            update_project_in_database(project_id,developers=users,
                                        project_name=project_name,
                                        description=description,
                                        deadline=deadline,

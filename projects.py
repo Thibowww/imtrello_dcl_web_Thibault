@@ -1,4 +1,4 @@
-from database.models import Task, Project, User
+from database.models import Task, Project, User, user_to_project
 from database.database import db
 
 
@@ -45,12 +45,13 @@ def add_project(project_name, description, deadline, manager_name):
     new_project = Project(project_name=project_name, manager=manager_name, description=description, deadline=deadline, isDone=False)
     db.session.add(new_project)
     db.session.commit()
-    new_project.users.add(User.query.filter_by(username=manager_name).first())
+    new_project.users.append(User.query.filter_by(username=manager_name).first())
+    db.session.commit()
     return new_project
 
 
 
-def update_project_in_database(project_id, project_name=None, description=None, deadline=None, is_done=None):
+def update_project_in_database(project_id, developers, project_name=None, description=None, deadline=None, is_done=None):
     project = db.session.query(Project).get(project_id)
     if project:
         if project_name is not None:
@@ -61,13 +62,16 @@ def update_project_in_database(project_id, project_name=None, description=None, 
             project.deadline = deadline
         if is_done is not None:
             project.isDone = is_done
+        if developers is not None:
+            for user in developers:
+                project.users.append(User.query.filter_by(username=user).first())
         db.session.commit()
     return project
 
 
-def get_all_projects():
-    """Retrieve all projects from the database."""
-    return Project.query.all()
+def get_all_projects(username):
+    projects = Project.query.join(user_to_project).join(User).filter(User.username == username).all()
+    return projects
 
 
 def get_project_by_id(project_id):
