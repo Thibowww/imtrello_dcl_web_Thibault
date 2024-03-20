@@ -44,22 +44,25 @@
         Add Project
     </button>
 </form>
-<div class="container">
-        <div class="project-list">
-            {% if projects %}
-                {% for project in projects %}
-                    <div class="project">
-                        <a href="{{ url_for('display_project_details', project_id=project.id) }}"><h2>{{ project.project_name }}</h2></a>
-                        <p class="description">{{ project.description }}</p>
-                        <p class="deadline">Deadline: {{ project.deadline }}</p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>No projects found.</p>
-            {% endif %}
-        </div>
+
+        <div class="flex-container">
+    {% if projects %}
+        {% for project in projects %}
+            <div class="contour_project">
+                <div class="project">
+                    <a href="{{ url_for('display_project_details', project_id=project.id) }}"><h2>{{ project.project_name }}</h2></a>
+                    <p class="description">{{ project.description }}</p>
+                    <p class="deadline">Deadline: {{ project.deadline }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No projects found.</p>
+    {% endif %}
+</div>
+
 <form action="{{ url_for("logout_function") }}" method="get">
             <p><input type="submit" value="Log out"></p>
         </form>
-</div>
+
 </body>
