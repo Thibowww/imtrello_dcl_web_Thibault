@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     padding: 20px;
-    background-color: lightgreen; /* Fond vert clair */
+    background-color: #272D2D; /* Fond vert clair */
     border-radius: 5px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -47,7 +47,7 @@ button {
 }
 
 .project h2 {
-    color: #333;
+    color: #edf5fc;
     margin-top: 0;
 
 }
@@ -65,12 +65,11 @@ button {
 }
 
 #logout_b {
-    background-color: #272D2D;
-    border: none;
-    color: #edf5fc;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+  background-color: #272D2D;
+  border: none;
+  color: #edf5fc;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
 }
