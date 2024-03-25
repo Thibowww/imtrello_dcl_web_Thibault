@@ -214,7 +214,7 @@ def edit_project_form(project_id):
             if new_developers != "":
                 users = new_developers.split(',')
             else :
-                developers = None
+                users = None
             is_done = True if request.form.get('is_done') == 'on' else False
 
             # Valider et convertir la date et l'heure de la deadline en un objet datetime
