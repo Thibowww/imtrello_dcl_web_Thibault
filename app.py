@@ -241,6 +241,13 @@ def edit_project_form(project_id):
         return jsonify({'error': 'Project not found'}), 404
 
 
+@app.route('/profile', methods=['GET', 'POST'])
+@is_connected
+def display_profile_page():
+
+    return flask.render_template("profile_page.html.jinja2", username=session['username'])
+
+
 
 
 

@@ -119,3 +119,13 @@ justify-content: center;
     background-color: darkred;
     border-radius: 8px;
 }
+
+#logout_b1{
+    background-color: #edf5fc;
+  border: none;
+  color: #272D2D;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
