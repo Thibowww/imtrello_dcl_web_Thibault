@@ -28,7 +28,7 @@ h1 {
     color: #272D2D;
 }
 
-.button {
+button {
   background-color: #272D2D; /* Green */
   border: none;
   color: #edf5fc;
