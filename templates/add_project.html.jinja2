@@ -36,10 +36,11 @@
  </div>
 </nav>
 <br>
-<h1 id="titre"> MES PROJETS</h1>
+<h2>Add a project</h2>
+<br>
 
-<div>
-    <h2>Add a project</h2>
+<div class="container">
+    <div class="centered-element">
     <form action= "{{ url_for('fonction_formulaire_create_project') }}" method="post">
         <label for="project_name">Project Name:</label>
         <input type="text" id="project_name" name="project_name"><br><br>
@@ -49,8 +50,9 @@
         <input type="date" id="deadline_date" name="deadline_date"><br><br>
         <label for="deadline_time">Deadline Time:</label>
         <input type="time" id="deadline_time" name="deadline_time"><br><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Add">
     </form>
+    </div>
 </div>
 </body>
 </html>
