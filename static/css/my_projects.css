@@ -10,10 +10,11 @@ body {
     display: flex;
     justify-content: center;
     padding: 20px;
-    background-color: #272D2D; /* Fond vert clair */
-    border-radius: 5px;
-    margin-bottom: 20px;
+    background-color: #272D2D; /* Fond gris */
+    border-radius: 8px;
+    /*margin-bottom: 20px;*/
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 3px;
 }
 
 .flex-container {
@@ -72,4 +73,9 @@ button {
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
+}
+
+#titre{
+    color: #272D2D;
+    text-align: center;
 }
