@@ -350,5 +350,12 @@ def edit_task_form(task_id):
     else:
         return jsonify({'error': 'Project not found'}), 404
 
+
+@app.route('/profile', methods=['GET', 'POST'])
+@is_connected
+def profile():
+        user = User.query.filter_by(username=session.get('username')).first()
+        return render_template("profile_page.html.jinja2", user=user)
+
 if __name__ == '__main__':
     app.run()
