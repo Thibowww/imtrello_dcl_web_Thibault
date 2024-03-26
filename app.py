@@ -52,7 +52,7 @@ def is_connected(f):
     return fonction_decorateur
 
 @app.route('/myprojects')
-@is_connected
+# @is_connected
 def display_projects():
     projects = get_all_projects(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects)
@@ -102,7 +102,7 @@ def register_checker(email, username, password, password_confirm):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@app.route('/myprojects', methods=['GET', 'POST'])
+# @app.route('/myprojects', methods=['GET', 'POST'])
 def login_function():
     donnees = request.form
     username = donnees.get("username")
