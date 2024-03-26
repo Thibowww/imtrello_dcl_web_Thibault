@@ -7,7 +7,8 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
-    delete_project_in_database, add_task_to_project, get_tasks_in_project, get_task_by_id, update_task_in_project
+    delete_project_in_database, add_task_to_project, get_tasks_in_project, get_task_by_id, update_task_in_project, \
+    delete_task_from_project
 
 app = Flask(__name__)
 
@@ -275,6 +276,12 @@ def formulaire_task_est_valide(form):
 @is_connected
 def delete_project(project_id):
     delete_project_in_database(project_id)
+    return redirect(url_for('display_projects'))
+
+@app.route('/delete_task/<int:task_id>', methods=['POST'])
+@is_connected
+def delete_task(task_id):
+    delete_task_from_project(task_id)
     return redirect(url_for('display_projects'))
 
 
