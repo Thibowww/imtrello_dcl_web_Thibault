@@ -27,6 +27,10 @@ html, body {
     filter: drop-shadow(0 0 10px black);
 }
 
+.general-carte {
+    padding: 25px;
+}
+
 
 .centre {
   margin: auto;
@@ -54,6 +58,28 @@ html, body {
   height: 50px;
   border-radius: 25px;
   width: 300px;
+
+}
+
+.general-button {
+    height : 75px;
+    width : max-content;
+    background: #0c2340;
+    transition: background 2s;
+    margin:auto;
+    text-align: center;
+    color:white;
+    border-radius:50px;
+    border-width: 1px;
+    border-color: white;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 24px;
+
+}
+
+.general-button:hover {
+    background: #14798c;
 
 }
 
@@ -123,6 +149,24 @@ html, body {
   -webkit-text-fill-color: transparent;
 }
 
+
+#titre{
+    font-weight: 400;
+    font-style: italic;
+    font-size: 48px;
+    color: lightcyan;
+    text-align: center;
+}
+
+#titre_modif{
+    font-weight: 300;
+    font-style: italic;
+    font-size: 48px;
+    color: lightcyan;
+    display: flex;
+    justify-content: center;
+
+}
 
 
 /* Import des polices Lato différentes tailles */

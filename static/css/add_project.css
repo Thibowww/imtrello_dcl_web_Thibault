@@ -1,7 +1,5 @@
-#titre {
-    color: #272D2D;
-    text-align: center;
-}
+@import "general.css";
+
 
 input[type=button], input[type=submit], input[type=reset] {
     background-color: lightgreen;

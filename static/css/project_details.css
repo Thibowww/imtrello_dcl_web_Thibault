@@ -92,33 +92,13 @@ justify-content: center;
   cursor: pointer;
 }
 
-#titre{
-    color: #272D2D;
-    text-align: center;
-}
-
-#titre_modif{
-    color: #272D2D;
-    display: flex;
-justify-content: center;
-
-}
 
 #user_text{
     color: #edf5fc;
 }
 
-#edit-project-btn{
-    color: #272D2D;
-    background-color: #edf5fc;
-    border-radius: 8px;
 
-}
 
-#del_b{
-    background-color: darkred;
-    border-radius: 8px;
-}
 input[type=button], input[type=submit], input[type=reset] {
     background-color: lightgreen;
     border: none;
@@ -132,4 +112,15 @@ input[type=button], input[type=submit], input[type=reset] {
 
 label {
     color: #edf5fc;
+}
+
+.contour_task {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #272D2D; /* Fond gris */
+    border-radius: 8px;
+    /*margin-bottom: 20px;*/
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 3px;
 }
