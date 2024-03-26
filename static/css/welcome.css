@@ -1,3 +1,28 @@
+@import "general.css";
+
+
+#carte-bienvenue {
+    display:flex;
+    width: 1000px;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+}
+
+#bienvenue-gauche {
+    display: flex;
+    flex: 0 0 500px;
+    flex-direction: column;
+    margin: 50px;
+}
+
+#bienvenue-droite {
+    display: flex;
+    flex: 1 1 400px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 body {
   margin: 100px;
     background-color: #edf5fc;
@@ -14,5 +39,3 @@ button {
   display: inline-block;
   font-size: 16px;
   border-radius: 8px;
-}
-
