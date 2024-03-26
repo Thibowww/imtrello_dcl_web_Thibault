@@ -217,8 +217,10 @@ def formulaire_est_valide(form):
     return result, errors
 
 
+
 @app.route('/projet/<int:project_id>/addtask', methods=['GET', 'POST'])
 @is_connected
+
 def fonction_formulaire_create_task(project_id):
     if request.method == 'POST':
         form_est_valide, errors = formulaire_task_est_valide(flask.request.form)
