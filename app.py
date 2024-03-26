@@ -25,6 +25,8 @@ with app.test_request_context():
 
 
 
+
+
 @app.route('/')
 def display_home_page():  # put application's code here
     return flask.render_template("welcome_page.html.jinja2")
@@ -117,6 +119,7 @@ def login_checker(username, password):
     hash = password + app.secret_key
     hash = hashlib.sha1(hash.encode())
     password = hash.hexdigest()
+    print("app.py", username, password)
     if check_password(username, password):
         error = None
         login_check=True
