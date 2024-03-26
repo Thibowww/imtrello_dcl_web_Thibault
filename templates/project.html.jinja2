@@ -28,10 +28,6 @@
         <a class="nav-link" href="#">Profile</a>
       </li>
     </ul>
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
   </div>
  </div>
 </nav>
@@ -45,6 +41,21 @@
         Add Task
     </button>
 </form>
+<div class="flex-container">
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="contour_task">
+                <div class="task">
+                    <h2>{{ task.task_name }}</h2>
+                    <p class="deadline">Deadline: {{ task.deadline }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No task found.</p>
+    {% endif %}
+</div>
+
 </body>
 </html>
 
