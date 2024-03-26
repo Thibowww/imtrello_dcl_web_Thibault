@@ -53,14 +53,15 @@ def display_projects():
     projects = get_all_projects(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects)
 
+
 @app.route('/projet/<int:project_id>/<int:task_id>')
 @is_connected
-def display_task(project_id,task_id):
-    task=get_task_by_id(task_id)
+def display_task(project_id, task_id):
+    task = get_task_by_id(task_id)
 
     project = get_project_by_id(project_id)
     user = User.query.filter_by(username=session.get('username')).first()
-    return flask.render_template("task.html.jinja2",task=task, project=project, user=user)
+    return flask.render_template("task.html.jinja2", task=task, project=project, user=user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -144,7 +145,6 @@ def logout_function():
 @app.route('/addproject')
 @is_connected
 def display_add_project():
-
     return flask.render_template("add_project.html.jinja2")
 
 
@@ -227,10 +227,8 @@ def formulaire_est_valide(form):
     return result, errors
 
 
-
 @app.route('/projet/<int:project_id>/addtask', methods=['GET', 'POST'])
 @is_connected
-
 def fonction_formulaire_create_task(project_id):
     if request.method == 'POST':
         form_est_valide, errors = formulaire_task_est_valide(flask.request.form)
@@ -320,9 +318,11 @@ def edit_project_form(project_id):
     else:
         return jsonify({'error': 'Project not found'}), 404
 
+
 @app.route('/edit_task_form/<int:task_id>', methods=['GET', 'POST'])
 @is_connected
-def edit_task_form(task_id):
+def edit_task_form(project_id, task_id):
+    project = get_project_by_id(project_id)
     task = get_task_by_id(task_id)
     if task:
         if request.method == 'POST':
@@ -341,21 +341,22 @@ def edit_task_form(task_id):
                 return "Les champs de date et d'heure sont requis", 400
 
             # Mettre à jour le projet dans la base de données
-            update_task_in_project(task_id,task_name=task_name,
-                                       deadline=deadline)
+            update_task_in_project(task_id, task_name=task_name,
+                                   deadline=deadline)
             # Rediriger l'utilisateur vers une page de confirmation ou toute autre page appropriée
-            return redirect(url_for('display_task', task_id=task.id))
+            return redirect(url_for('display_task', project_id=project.id, task_id=task.id))
         else:
-            return render_template('edit_task_form.html.jinja2', task=task)
+            return render_template('edit_task_form.html.jinja2', project=project, task=task)
     else:
-        return jsonify({'error': 'Project not found'}), 404
+        return jsonify({'error': 'Task not found'}), 404
 
 
 @app.route('/profile', methods=['GET', 'POST'])
 @is_connected
 def profile():
-        user = User.query.filter_by(username=session.get('username')).first()
-        return render_template("profile_page.html.jinja2", user=user)
+    user = User.query.filter_by(username=session.get('username')).first()
+    return render_template("profile_page.html.jinja2", user=user)
+
 
 if __name__ == '__main__':
     app.run()
