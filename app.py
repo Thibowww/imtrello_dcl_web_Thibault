@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
-    delete_project_in_database
+    delete_project_in_database, add_task_to_project
 
 app = Flask(__name__)
 
@@ -157,7 +157,7 @@ def fonction_formulaire_create_project():
     if request.method == 'POST':
         form_est_valide, errors = formulaire_est_valide(flask.request.form)
         if not form_est_valide:
-            print("Le formulaire n'est pas valide. Erreurs :", errors)  # Afficher les erreurs dans la console
+            print("Le formulaire n'est pas valide. Erreurs :", errors)
             return display_add_project()
         else:
             manager_name = session.get('username')
@@ -168,12 +168,10 @@ def fonction_formulaire_create_project():
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
             add_project(project_name, description, deadline, manager_name)
-            return redirect(url_for('display_projects'))  # Rediriger vers la page des projets après avoir ajouté le projet
+            return redirect(url_for('display_projects'))
     else:
-        # Si la méthode de la requête n'est pas POST, afficher simplement le formulaire
+
         return display_add_project()
-
-
 
 def formulaire_est_valide(form):
     project_name = request.form.get("project_name")
@@ -186,6 +184,52 @@ def formulaire_est_valide(form):
 
     if not project_name:
         errors += ["Error: Project name is required"]
+        result = False
+
+    if not deadline_date:
+        errors += ["Error: Project date deadline is required"]
+        result = False
+
+    if not deadline_time:
+        errors += ["Error: Project time deadline is required"]
+        result = False
+
+    return result, errors
+
+
+
+@app.route('<int:project_id>/addtask', methods=['GET', 'POST'])
+def fonction_formulaire_create_task(project_id):
+    if request.method == 'POST':
+        form_est_valide, errors = formulaire_task_est_valide(flask.request.form)
+        if not form_est_valide:
+            print("Le formulaire n'est pas valide. Erreurs :", errors)
+            return display_add_project()
+        else:
+            manager_name = session.get('username')
+            task_name = request.form.get("task_name")
+            deadline_date = request.form.get("deadline_date")
+            deadline_time = request.form.get("deadline_time")
+            deadline_str = deadline_date + ' ' + deadline_time
+            deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
+            add_task_to_project(project_id, task_name, deadline, manager_name)
+            return redirect(url_for('display_projects'))
+    else:
+
+        return display_add_project()
+
+
+
+def formulaire_task_est_valide(form):
+    task_name = request.form.get("task_name")
+    deadline_time = request.form.get("deadline_time")
+    deadline_date = request.form.get("deadline_time")
+
+    result = True
+    errors = []
+
+    if not task_name:
+        errors += ["Error: Task name is required"]
         result = False
 
     if not deadline_date:
@@ -242,6 +286,7 @@ def edit_project_form(project_id):
             return render_template('edit_project_form.html.jinja2', project=project)
     else:
         return jsonify({'error': 'Project not found'}), 404
+
 
 
 
