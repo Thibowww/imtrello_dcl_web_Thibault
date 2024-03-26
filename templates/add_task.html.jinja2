@@ -7,9 +7,9 @@
 <body>
 <div>
     <h2>Add a task</h2>
-    <form action= "{{ url_for('fonction_formulaire_create_task') }}" method="post">
-        <label for="task_name">Project Name:</label>
-        <input type="text" id="project_name" name="project_name"><br><br>
+    <form action= "{{ url_for('fonction_formulaire_create_task',project_id=project.id) }}" method="post">
+        <label for="task_name">Task Name:</label>
+        <input type="text" id="task_name" name="task_name"><br><br>
         <label for="deadline_date">Deadline Date:</label>
         <input type="date" id="deadline_date" name="deadline_date"><br><br>
         <label for="deadline_time">Deadline Time:</label>
