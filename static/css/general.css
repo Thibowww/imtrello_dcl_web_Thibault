@@ -1,7 +1,8 @@
 
 html, body {
     height: 100%;
-    font-family: "Lato", sans-serif;
+    background: rgb(0,0,0);
+    background: linear-gradient(100deg, rgba(0,0,0,1) 0%, rgba(10,6,56,1) 100%);
 }
 
 
@@ -25,6 +26,14 @@ html, body {
     background: -webkit-linear-gradient(-20deg, #0A0638 0%, #083046 100%);
     filter: drop-shadow(0 0 10px black);
 }
+
+
+.centre {
+  margin: auto;
+  width: min-content;
+  padding: 10px;
+}
+
 
 .conteneur-texte {
   display: flex;
@@ -59,6 +68,7 @@ html, body {
     font-size: 48px;
     background: #0A0638;
     transition: background 2s;
+    align-self: center;
 }
 
 .login-button:hover{

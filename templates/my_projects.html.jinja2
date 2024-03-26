@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects</title>
@@ -40,17 +39,22 @@
   </div>
  </div>
 </nav>
-<br>
-<h1 id="titre"> MES PROJETS</h1>
+
 
 <br>
+<h1 id="title1"> MES PROJETS</h1>
+<br>
+
 <form action="{{ url_for("display_add_project") }}" method="get">
-    <button>
+    <div class="centre">
+        <button class="login-button">
         Add Project
-    </button>
+        </button>
+    </div>
+
 </form>
 
-        <div class="flex-container">
+    <div class="flex-container">
     {% if projects %}
         {% for project in projects %}
             <div class="contour_project">
