@@ -35,7 +35,10 @@
     <div class="centered-element">
 
 
-        <p>Nom d'utilisateur : {{ username }}</p>
+        <p>Nom d'utilisateur : {{ user.username }}</p>
+        <p>Prénom : {{ user.first_name }}</p>
+        <p>Nom : {{ user.last_name }}</p>
+        <p>Email : {{ user.email }}</p>
     <br><br>
     <form action="{{ url_for("logout_function") }}" method="get">
             <p><input id="logout_1" type="submit" value="Log out"></p>
