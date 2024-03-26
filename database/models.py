@@ -1,5 +1,6 @@
 from database.database import db
 
+
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.Text)
@@ -25,7 +26,6 @@ class Project(db.Model):
     description = db.Column(db.Text)
     deadline = db.Column(db.DateTime)
     isDone = db.Column(db.Boolean)
-
 
 
 class User(db.Model):
