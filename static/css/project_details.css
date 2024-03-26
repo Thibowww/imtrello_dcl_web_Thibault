@@ -133,3 +133,14 @@ input[type=button], input[type=submit], input[type=reset] {
 label {
     color: #edf5fc;
 }
+
+.contour_task {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #272D2D; /* Fond gris */
+    border-radius: 8px;
+    /*margin-bottom: 20px;*/
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 3px;
+}
