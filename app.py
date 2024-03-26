@@ -99,7 +99,7 @@ def register_checker(email, username, password, password_confirm):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-# @app.route('/myprojects', methods=['GET', 'POST'])
+@app.route('/myprojects', methods=['GET', 'POST'])
 def login_function():
     donnees = request.form
     username = donnees.get("username")

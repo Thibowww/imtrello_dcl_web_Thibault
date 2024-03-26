@@ -1,9 +1,8 @@
+@import "general.css";
+
 /* styles.css */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #edf5fc;
-    margin: 0;
-    padding: 0;
+
 }
 
 .contour_project {
@@ -25,8 +24,17 @@ body {
     padding: 20px;
 }
 
-h1 {
-    color: #272D2D;
+.project-card {
+
+}
+
+#title1{
+    color: lightcyan;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    text-align: center;
+    font-weight: 300;
+    font-size: 72px;
 }
 
 p{
@@ -90,11 +98,6 @@ justify-content: center;
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
-}
-
-#titre{
-    color: #272D2D;
-    text-align: center;
 }
 
 #titre_modif{
