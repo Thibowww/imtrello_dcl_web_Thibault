@@ -1,6 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <!-- Mise à l'echelle pour les navigateurs mobiles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Importe la fonte LATO -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects</title>
@@ -45,7 +56,7 @@
         {% for project in projects %}
             <div class="contour_project">
                 <div class="project">
-                    <a href="{{ url_for('display_project_details', project_id=project.id) }}"><h2>{{ project.project_name }}</h2></a>
+                    <a href="{{ url_for('display_project', project_id=project.id) }}"><h2>{{ project.project_name }}</h2></a>
                     <p class="description">{{ project.description }}</p>
                     <p class="deadline">Deadline: {{ project.deadline }}</p>
                 </div>

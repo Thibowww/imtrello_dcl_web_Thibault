@@ -3,10 +3,10 @@ from database.database import db
 
 
 # Functions to manage tasks within projects
-def add_task_to_project(project_id, label, is_done=False):
+def add_task_to_project(project_id, label, deadline, is_done=False):
     project = Project.query.get(project_id)
     if project:
-        new_task = Task(label=label, isDone=is_done, project_id=project_id)
+        new_task = Task(label=label,deadline=deadline, isDone=is_done, project_id=project_id)
         db.session.add(new_task)
         db.session.commit()
         return new_task
@@ -21,7 +21,6 @@ def get_tasks_in_project(project_id):
 
 
 def update_task_in_project(task_id, label=None, is_done=None):
-    """Update a task within a project."""
     task = Task.query.get(task_id)
     if task:
         if label is not None:
@@ -33,7 +32,6 @@ def update_task_in_project(task_id, label=None, is_done=None):
 
 
 def delete_task_from_project(task_id):
-    """Delete a task from a project."""
     task = Task.query.get(task_id)
     if task:
         db.session.delete(task)
@@ -125,3 +123,4 @@ def get_all_projects_sorted_by_label():
 def search_projects_by_keyword(keyword):
     """Search for projects containing a specific keyword in their label."""
     return Project.query.filter(Project.label.ilike(f'%{keyword}%')).all()
+

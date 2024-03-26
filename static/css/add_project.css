@@ -1,44 +1,43 @@
-#titre{
+#titre {
     color: #272D2D;
     text-align: center;
 }
 
-imput[type=button], input[type=submit], input[type=reset]{
+input[type=button], input[type=submit], input[type=reset] {
     background-color: lightgreen;
-  border: none;
-  color: #edf5fc;
-  padding: 16px 32px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
+    border: none;
+    color: #edf5fc;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
     border-radius: 8px;
 }
 
-label{
+label {
     color: #edf5fc;
 }
 
-h2{
+h2 {
     color: #272D2D;
     display: flex;
-justify-content: center;
+    justify-content: center;
 }
 
 textarea {
-  padding: 10px;
-  max-width: 100%;
-  line-height: 1.5;
-  border-radius: 5px;
-  border: 1px solid #272D2D;
-  box-shadow: 1px 1px 1px #edf5fc;
+    padding: 10px;
+    max-width: 100%;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #272D2D;
+    box-shadow: 1px 1px 1px #edf5fc;
 }
 
 
-
-.centered-element{
+.centered-element {
     display: flex;
-justify-content: center;
-  align-items: center;
+    justify-content: center;
+    align-items: center;
     width: 400px;
     border-radius: 8px;
     margin-left: auto;

@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
-    delete_project_in_database
+    delete_project_in_database, add_task_to_project
 
 app = Flask(__name__)
 
@@ -22,6 +22,8 @@ app.secret_key = 'imtrello'
 db.init_app(app)
 with app.test_request_context():
     init_database()
+
+
 
 
 
@@ -50,7 +52,7 @@ def is_connected(f):
     return fonction_decorateur
 
 @app.route('/myprojects')
-@is_connected
+# @is_connected
 def display_projects():
     projects = get_all_projects(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects)
@@ -100,7 +102,7 @@ def register_checker(email, username, password, password_confirm):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@app.route('/myprojects', methods=['GET', 'POST'])
+# @app.route('/myprojects', methods=['GET', 'POST'])
 def login_function():
     donnees = request.form
     username = donnees.get("username")
@@ -117,6 +119,7 @@ def login_checker(username, password):
     hash = password + app.secret_key
     hash = hashlib.sha1(hash.encode())
     password = hash.hexdigest()
+    print("app.py", username, password)
     if check_password(username, password):
         error = None
         login_check=True
@@ -138,23 +141,43 @@ def logout_function():
 def display_add_project():
     return flask.render_template("add_project.html.jinja2")
 
+@app.route('/projet/<int:project_id>/addtask')
+@is_connected
+def display_add_task(project_id):
+    project = get_project_by_id(project_id)
+    if project:
+        return flask.render_template("add_task.html.jinja2", project=project)
+    else:
+        return "Project not found", 404
+
 @app.route('/projet/<int:project_id>')
+@is_connected
+def display_project(project_id):
+    project = get_project_by_id(project_id)
+    if project:
+        return render_template("project.html.jinja2", project=project)
+    else:
+        return "Project not found", 404
+
+@app.route('/projet/<int:project_id>/project_details')
 @is_connected
 def display_project_details(project_id):
     project = get_project_by_id(project_id)
+    user = User.query.filter_by(username=session.get('username')).first()
     if project:
-        return render_template("project_details.html.jinja2", project=project)
+        return render_template("project_details.html.jinja2", project=project, user=user)
     else:
         return "Project not found", 404
 
 
 
 @app.route('/addproject', methods=['GET', 'POST'])
+@is_connected
 def fonction_formulaire_create_project():
     if request.method == 'POST':
         form_est_valide, errors = formulaire_est_valide(flask.request.form)
         if not form_est_valide:
-            print("Le formulaire n'est pas valide. Erreurs :", errors)  # Afficher les erreurs dans la console
+            print("Le formulaire n'est pas valide. Erreurs :", errors)
             return display_add_project()
         else:
             manager_name = session.get('username')
@@ -165,12 +188,10 @@ def fonction_formulaire_create_project():
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
             add_project(project_name, description, deadline, manager_name)
-            return redirect(url_for('display_projects'))  # Rediriger vers la page des projets après avoir ajouté le projet
+            return redirect(url_for('display_projects'))
     else:
-        # Si la méthode de la requête n'est pas POST, afficher simplement le formulaire
+
         return display_add_project()
-
-
 
 def formulaire_est_valide(form):
     project_name = request.form.get("project_name")
@@ -195,13 +216,62 @@ def formulaire_est_valide(form):
 
     return result, errors
 
+
+
+@app.route('/projet/<int:project_id>/addtask', methods=['GET', 'POST'])
+@is_connected
+def fonction_formulaire_create_task(project_id):
+    if request.method == 'POST':
+        form_est_valide, errors = formulaire_task_est_valide(flask.request.form)
+        if not form_est_valide:
+            print("Le formulaire n'est pas valide. Erreurs :", errors)
+            return display_add_task(project_id)
+        else:
+            manager_name = session.get('username')
+            task_name = request.form.get("task_name")
+            deadline_date = request.form.get("deadline_date")
+            deadline_time = request.form.get("deadline_time")
+            deadline_str = deadline_date + ' ' + deadline_time
+            deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
+            add_task_to_project(project_id, task_name, deadline, manager_name)
+            return redirect(url_for('display_project', project_id=project_id))
+    else:
+
+        return display_add_task(project_id)
+
+
+
+def formulaire_task_est_valide(form):
+    task_name = request.form.get("task_name")
+    deadline_time = request.form.get("deadline_time")
+    deadline_date = request.form.get("deadline_time")
+
+    result = True
+    errors = []
+
+    if not task_name:
+        errors += ["Error: Task name is required"]
+        result = False
+
+    if not deadline_date:
+        errors += ["Error: Project date deadline is required"]
+        result = False
+
+    if not deadline_time:
+        errors += ["Error: Project time deadline is required"]
+        result = False
+
+    return result, errors
+
 @app.route('/delete_project/<int:project_id>', methods=['POST'])
+@is_connected
 def delete_project(project_id):
     delete_project_in_database(project_id)
     return redirect(url_for('display_projects'))
 
 
 @app.route('/edit_project_form/<int:project_id>', methods=['GET', 'POST'])
+@is_connected
 def edit_project_form(project_id):
     project = get_project_by_id(project_id)
     if project:
@@ -246,6 +316,7 @@ def edit_project_form(project_id):
 def display_profile_page():
 
     return flask.render_template("profile_page.html.jinja2", username=session['username'])
+
 
 
 

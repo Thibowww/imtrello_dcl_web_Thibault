@@ -1,0 +1,174 @@
+
+html, body {
+    height: 100%;
+    font-family: "Lato", sans-serif;
+}
+
+
+.main {
+    height: 100%;
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(0,0,0);
+    background: linear-gradient(100deg, rgba(0,0,0,1) 0%, rgba(10,6,56,1) 100%);
+}
+
+
+.carte {
+    border-style: solid;
+    border-radius: 50px;
+    border-color: white;
+    border-width: 1px;
+    background: rgb(49,42,138);
+    background: -webkit-linear-gradient(-20deg, #0A0638 0%, #083046 100%);
+    filter: drop-shadow(0 0 10px black);
+}
+
+.conteneur-texte {
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+}
+
+.label-champ {
+    color: white;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.champ-texte {
+  background-color: #0A0638;
+  color: white;
+  height: 50px;
+  border-radius: 25px;
+  width: 300px;
+
+}
+
+.login-button {
+    height: 100px;
+    width: 300px;
+    color:white;
+    border-radius:50px;
+    border-width: 1px;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 48px;
+    background: #0A0638;
+    transition: background 2s;
+}
+
+.login-button:hover{
+    background: #083046;
+}
+
+.register-text {
+    padding-top: 50px;
+    text-align: center;
+    font-size: 24px;
+    color: #90b1c4;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.register-button {
+    text-align: center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    width: 300px;
+    font-size: 24px;
+    color: #578FAF;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.register-button:hover {
+    color: white;
+}
+
+
+
+.imtrello-title {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 136px;
+  text-align: center;
+  color: white;
+}
+
+.imtrello-subtitle {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 48px;
+  text-align: center;
+  background: -webkit-linear-gradient(0deg, #41728E 0%, #312A8A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+/* Import des polices Lato différentes tailles */
+
+.lato-thin {
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light {
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-light-italic {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-black-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
