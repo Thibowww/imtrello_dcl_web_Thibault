@@ -163,8 +163,9 @@ def display_project(project_id):
 @is_connected
 def display_project_details(project_id):
     project = get_project_by_id(project_id)
+    user = User.query.filter_by(username=session.get('username')).first()
     if project:
-        return render_template("project_details.html.jinja2", project=project)
+        return render_template("project_details.html.jinja2", project=project, user=user)
     else:
         return "Project not found", 404
 
