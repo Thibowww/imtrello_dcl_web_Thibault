@@ -31,11 +31,13 @@
   </div>
  </div>
 </nav>
+<br>
 <form action="{{ url_for("display_project_details", project_id=project.id) }}" method="get">
     <button>
         Project details
     </button>
 </form>
+<br>
 <form action="{{ url_for("display_add_task", project_id=project.id) }}" method="get">
     <button>
         Add Task
