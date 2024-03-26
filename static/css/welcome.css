@@ -25,12 +25,6 @@
 }
 
 
-body {
-  margin: 100px;
-    background-color: #edf5fc;
-  /*background-image: url("https://upload.wikimedia.org/wikipedia/fr/thumb/c/c1/Logo_Trello.svg/1200px-Logo_Trello.svg.png");*/
-
-}
 button {
   background-color: #272D2D;
   border: none;
