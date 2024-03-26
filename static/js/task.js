@@ -9,3 +9,21 @@ function toggleFormVisibility() {
             }
         }
         window.onload = toggleFormVisibility;
+
+document.getElementById('edit-task-btn').addEventListener('click', function() {
+    // Effectuer une requête AJAX pour récupérer le formulaire de modification
+    var xhr = new XMLHttpRequest();
+    var editUrl = this.getAttribute('data-edit-url');
+    xhr.open('GET', editUrl, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Afficher le formulaire dans le conteneur approprié
+            document.getElementById('edit-task-form-container').innerHTML = xhr.responseText;
+        } else {
+            // Afficher un message d'erreur en cas d'échec du chargement du formulaire
+            console.error('Failed to load edit task form');
+        }
+    };
+    xhr.send();
+});
