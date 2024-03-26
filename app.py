@@ -228,13 +228,12 @@ def fonction_formulaire_create_task(project_id):
             print("Le formulaire n'est pas valide. Erreurs :", errors)
             return display_add_task(project_id)
         else:
-            manager_name = session.get('username')
             task_name = request.form.get("task_name")
             deadline_date = request.form.get("deadline_date")
             deadline_time = request.form.get("deadline_time")
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
-            add_task_to_project(project_id, task_name, deadline, manager_name)
+            add_task_to_project(project_id, task_name, deadline)
             return redirect(url_for('display_project', project_id=project_id))
     else:
 

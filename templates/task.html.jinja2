@@ -18,9 +18,7 @@
 
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-        <a class="nav-link" href="#">IMTrello</a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="/myprojects">Projects</a>
       </li>
@@ -31,31 +29,21 @@
   </div>
  </div>
 </nav>
-<form action="{{ url_for("display_project_details", project_id=project.id) }}" method="get">
-    <button>
-        Project details
-    </button>
-</form>
-<form action="{{ url_for("display_add_task", project_id=project.id) }}" method="get">
-    <button>
-        Add Task
-    </button>
-</form>
-<div class="flex-container">
-    {% if tasks %}
-        {% for task in tasks %}
-            <div class="contour_task">
-                <div class="task">
-                    <a href="{{ url_for('display_project', project_id=project.id) }}"><h2>{{ task.task_name }}</h2></a>
-                    <p class="deadline">Deadline: {{ task.deadline }}</p>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No task found.</p>
-    {% endif %}
-</div>
-
+<br>
+<h1 id="titre_modif">{{ task.task_name }}</h1>
+<br>
+<div class="container">
+    <div class="centered-element">
+    <p>Date Limite : {{ task.deadline }}</p>
+    <div id="manager_use" manager="{{ task.project.manager }}" username="{{ user.username }}"> <button id="edit-task-btn" data-edit-url="{{ url_for('edit_task_form.html.jinja2', task_id=task.id) }}">Modifier la tâche</button>
+    <div id="edit-project-form-container"></div>
+    <br><br>
+    <form action="{{ url_for('delete_project', project_id=project.id) }}" method="post"
+          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche?');">
+        <button type="submit">Supprimer la tâche</button>
+    </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/task.js') }}"></script>
 </body>
 </html>
 
