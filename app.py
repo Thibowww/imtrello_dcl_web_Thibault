@@ -1,4 +1,3 @@
-
 import hashlib
 from functools import wraps
 from datetime import datetime
@@ -8,23 +7,18 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
-    delete_project_in_database, add_task_to_project
+    delete_project_in_database, add_task_to_project, get_tasks_in_project
 
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///../database/database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-
 app.secret_key = 'imtrello'
-
 
 db.init_app(app)
 with app.test_request_context():
     init_database()
-
-
-
 
 
 @app.route('/')
@@ -49,7 +43,9 @@ def is_connected(f):
             return f(*args, **kwargs)
         else:
             return redirect(url_for("display_login_page"))
+
     return fonction_decorateur
+
 
 @app.route('/myprojects')
 # @is_connected
@@ -77,26 +73,27 @@ def register_function():
     else:
         return display_home_page()
 
+
 def register_checker(email, username, password, password_confirm):
     '''
     vérifier que les mots de passe correspondent
     vérifier qu'ils respectent certains critères
     vérifier que l'username ou l'email n'existe pas déjà
     '''
-    register_check=True
+    register_check = True
     errors_data = register_check_data(email, username)
     print(errors_data)
     password_error = []
     if password != password_confirm:
         password_error.append("Passwords don't match")
-        register_check=False
+        register_check = False
     print(register_check)
-    if len(password)<8:
+    if len(password) < 8:
         password_error.append("Password too short, use at least 8 caracteres")
         register_check = False
     print(register_check)
-    if len(errors_data)!=0:
-        register_check=False
+    if len(errors_data) != 0:
+        register_check = False
     print(register_check)
     return register_check, errors_data, password_error
 
@@ -114,6 +111,7 @@ def login_function():
     else:
         return display_login_page()
 
+
 def login_checker(username, password):
     login_check = False
     hash = password + app.secret_key
@@ -122,18 +120,16 @@ def login_checker(username, password):
     print("app.py", username, password)
     if check_password(username, password):
         error = None
-        login_check=True
+        login_check = True
         return login_check, error
-    error="User doesn't exist or wrong password"
+    error = "User doesn't exist or wrong password"
     return login_check, error
 
-@app.route('/home_page', methods=['GET', 'POST'])
 
+@app.route('/home_page', methods=['GET', 'POST'])
 def logout_function():
     session.pop('username', None)
     return display_home_page()
-
-
 
 
 @app.route('/addproject')
@@ -141,7 +137,29 @@ def logout_function():
 def display_add_project():
     return flask.render_template("add_project.html.jinja2")
 
+
+@app.route('/projet/<int:project_id>/addtask')
+@is_connected
+def display_add_task(project_id):
+    project = get_project_by_id(project_id)
+    if project:
+        return flask.render_template("add_task.html.jinja2", project=project)
+    else:
+        return "Project not found", 404
+
+
 @app.route('/projet/<int:project_id>')
+@is_connected
+def display_project(project_id):
+    project = get_project_by_id(project_id)
+    tasks = get_tasks_in_project(project_id)
+    if project:
+        return render_template("project.html.jinja2", project=project, tasks=tasks)
+    else:
+        return "Project not found", 404
+
+
+@app.route('/projet/<int:project_id>/project_details')
 @is_connected
 def display_project_details(project_id):
     project = get_project_by_id(project_id)
@@ -152,8 +170,8 @@ def display_project_details(project_id):
         return "Project not found", 404
 
 
-
 @app.route('/addproject', methods=['GET', 'POST'])
+@is_connected
 def fonction_formulaire_create_project():
     if request.method == 'POST':
         form_est_valide, errors = formulaire_est_valide(flask.request.form)
@@ -173,6 +191,7 @@ def fonction_formulaire_create_project():
     else:
 
         return display_add_project()
+
 
 def formulaire_est_valide(form):
     project_name = request.form.get("project_name")
@@ -198,14 +217,19 @@ def formulaire_est_valide(form):
     return result, errors
 
 
+<<<<<<< HEAD
 
 @app.route('/<int:project_id>/addtask', methods=['GET', 'POST'])
+=======
+@app.route('/projet/<int:project_id>/addtask', methods=['GET', 'POST'])
+@is_connected
+>>>>>>> 5edef31b40740fc470750b5d252cdd6eaf0ad116
 def fonction_formulaire_create_task(project_id):
     if request.method == 'POST':
         form_est_valide, errors = formulaire_task_est_valide(flask.request.form)
         if not form_est_valide:
             print("Le formulaire n'est pas valide. Erreurs :", errors)
-            return display_add_project()
+            return display_add_task(project_id)
         else:
             manager_name = session.get('username')
             task_name = request.form.get("task_name")
@@ -214,11 +238,10 @@ def fonction_formulaire_create_task(project_id):
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
             add_task_to_project(project_id, task_name, deadline, manager_name)
-            return redirect(url_for('display_projects'))
+            return redirect(url_for('display_project', project_id=project_id))
     else:
 
-        return display_add_project()
-
+        return display_add_task(project_id)
 
 
 def formulaire_task_est_valide(form):
@@ -243,13 +266,16 @@ def formulaire_task_est_valide(form):
 
     return result, errors
 
+
 @app.route('/delete_project/<int:project_id>', methods=['POST'])
+@is_connected
 def delete_project(project_id):
     delete_project_in_database(project_id)
     return redirect(url_for('display_projects'))
 
 
 @app.route('/edit_project_form/<int:project_id>', methods=['GET', 'POST'])
+@is_connected
 def edit_project_form(project_id):
     project = get_project_by_id(project_id)
     if project:
@@ -261,7 +287,7 @@ def edit_project_form(project_id):
             new_developers = request.form.get('new_developers')
             if new_developers != "":
                 users = new_developers.split(',')
-            else :
+            else:
                 users = None
             is_done = True if request.form.get('is_done') == 'on' else False
 
@@ -276,7 +302,7 @@ def edit_project_form(project_id):
                 return "Les champs de date et d'heure sont requis", 400
 
             # Mettre à jour le projet dans la base de données
-            update_project_in_database(project_id,developers=users,
+            update_project_in_database(project_id, developers=users,
                                        project_name=project_name,
                                        description=description,
                                        deadline=deadline,
@@ -287,10 +313,6 @@ def edit_project_form(project_id):
             return render_template('edit_project_form.html.jinja2', project=project)
     else:
         return jsonify({'error': 'Project not found'}), 404
-
-
-
-
 
 
 if __name__ == '__main__':
