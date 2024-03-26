@@ -1,17 +1,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/project_details.css') }}">
 <form id="editProjectForm" action="{{ url_for('edit_project_form', project_id=project.id) }}" method="post">
-    <label for="edit_project_name">Nom du Projet:</label><br>
+    <label for="edit_project_name">Project Name:</label><br>
     <input type="text" id="edit_project_name" name="project_name" value="{{ project.project_name }}"><br>
     <label for="edit_description">Description:</label><br>
     <textarea id="edit_description" name="description">{{ project.description }}</textarea><br>
-    <label for="edit_project_name">Nouveaux développeurs:</label><br>
+    <label for="edit_project_name">New dev:</label><br>
     <input type="text" id="edit_project_name" name="new_developers"><br>
-    <label for="edit_deadline_date">Date Limite:</label><br>
+    <label for="edit_deadline_date">Limit Date:</label><br>
     <input type="date" id="edit_deadline_date" name="deadline_date" value="{{ project.deadline.strftime('%Y-%m-%d') }}"><br>
-    <label for="edit_deadline_time">Heure Limite:</label><br>
+    <label for="edit_deadline_time">Limit Hour:</label><br>
     <input type="time" id="edit_deadline_time" name="deadline_time" value="{{ project.deadline.strftime('%H:%M') }}"><br>
-    <label for="edit_is_done">Terminé:</label>
+    <label for="edit_is_done">Done:</label>
     <input type="checkbox" id="edit_is_done" name="is_done" {% if project.isDone %}checked{% endif %}><br>
-    <button type="submit">Enregistrer</button>
-    <button type="button" id="cancelEdit" >Annuler</button>
+    <button type="submit">Save</button>
+    <button type="button" id="cancelEdit" >Cancel</button>
 </form>
