@@ -35,8 +35,8 @@
 <div class="container">
     <div class="centered-element">
     <p>Date Limite : {{ task.deadline }}</p>
-    <div id="manager_use" manager="{{ task.project.manager }}" username="{{ user.username }}"> <button id="edit-task-btn" data-edit-url="{{ url_for('edit_task_form.html.jinja2', task_id=task.id) }}">Modifier la tâche</button>
-    <div id="edit-project-form-container"></div>
+    <div id="manager_use" manager="{{ task.project.manager }}" username="{{ user.username }}"> <button id="edit-task-btn" data-edit-url="{{ url_for('edit_task_form', task_id=task.id) }}">Modifier la tâche</button>
+    <div id="edit-task-form-container"></div>
     <br><br>
     <form action="{{ url_for('delete_project', project_id=project.id) }}" method="post"
           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche?');">

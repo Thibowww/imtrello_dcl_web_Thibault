@@ -19,6 +19,10 @@ def get_tasks_in_project(project_id):
         return project.tasks
     return []
 
+def get_task_by_id(task_id):
+    task = Task.query.get(task_id)
+    return task
+
 
 def update_task_in_project(task_id, label=None, is_done=None):
     task = Task.query.get(task_id)

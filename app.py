@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, j
 from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
-    delete_project_in_database, add_task_to_project, get_tasks_in_project
+    delete_project_in_database, add_task_to_project, get_tasks_in_project, get_task_by_id, update_task_in_project
 
 app = Flask(__name__)
 
@@ -48,10 +48,19 @@ def is_connected(f):
 
 
 @app.route('/myprojects')
-# @is_connected
+@is_connected
 def display_projects():
     projects = get_all_projects(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects)
+
+@app.route('/projet/<int:project_id>/<int:task_id>')
+@is_connected
+def display_task(project_id,task_id):
+    task=get_task_by_id(task_id)
+
+    project = get_project_by_id(project_id)
+    user = User.query.filter_by(username=session.get('username')).first()
+    return flask.render_template("task.html.jinja2",task=task, project=project, user=user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -135,6 +144,7 @@ def logout_function():
 @app.route('/addproject')
 @is_connected
 def display_add_project():
+
     return flask.render_template("add_project.html.jinja2")
 
 
@@ -310,6 +320,35 @@ def edit_project_form(project_id):
     else:
         return jsonify({'error': 'Project not found'}), 404
 
+@app.route('/edit_task_form/<int:task_id>', methods=['GET', 'POST'])
+@is_connected
+def edit_task_form(task_id):
+    task = get_task_by_id(task_id)
+    if task:
+        if request.method == 'POST':
+            task_name = request.form.get('task_name')
+            deadline_date = request.form.get('deadline_date')
+            deadline_time = request.form.get('deadline_time')
+
+            # Valider et convertir la date et l'heure de la deadline en un objet datetime
+            if deadline_date and deadline_time:
+                deadline_str = deadline_date + ' ' + deadline_time
+                try:
+                    deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
+                except ValueError:
+                    return "Format de date invalide", 400
+            else:
+                return "Les champs de date et d'heure sont requis", 400
+
+            # Mettre à jour le projet dans la base de données
+            update_task_in_project(task_id,task_name=task_name,
+                                       deadline=deadline)
+            # Rediriger l'utilisateur vers une page de confirmation ou toute autre page appropriée
+            return redirect(url_for('display_task', task_id=task.id))
+        else:
+            return render_template('edit_task_form.html.jinja2', task=task)
+    else:
+        return jsonify({'error': 'Project not found'}), 404
 
 if __name__ == '__main__':
     app.run()

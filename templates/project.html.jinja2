@@ -46,7 +46,7 @@
         {% for task in tasks %}
             <div class="contour_task">
                 <div class="task">
-                    <a href="{{ url_for('display_project', project_id=project.id) }}"><h2>{{ task.task_name }}</h2></a>
+                    <a href="{{ url_for('display_task',project_id=project.id, task_id=task.id) }}"><h2>{{ task.task_name }}</h2></a>
                     <p class="deadline">Deadline: {{ task.deadline }}</p>
                 </div>
             </div>
