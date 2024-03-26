@@ -141,7 +141,25 @@ def logout_function():
 def display_add_project():
     return flask.render_template("add_project.html.jinja2")
 
+@app.route('/projet/<int:project_id>/addtask')
+@is_connected
+def display_add_task(project_id):
+    project = get_project_by_id(project_id)
+    if project:
+        return flask.render_template("add_task.html.jinja2", project=project)
+    else:
+        return "Project not found", 404
+
 @app.route('/projet/<int:project_id>')
+@is_connected
+def display_project(project_id):
+    project = get_project_by_id(project_id)
+    if project:
+        return render_template("project.html.jinja2", project=project)
+    else:
+        return "Project not found", 404
+
+@app.route('/projet/<int:project_id>/project_details')
 @is_connected
 def display_project_details(project_id):
     project = get_project_by_id(project_id)
@@ -153,6 +171,7 @@ def display_project_details(project_id):
 
 
 @app.route('/addproject', methods=['GET', 'POST'])
+@is_connected
 def fonction_formulaire_create_project():
     if request.method == 'POST':
         form_est_valide, errors = formulaire_est_valide(flask.request.form)
@@ -198,13 +217,14 @@ def formulaire_est_valide(form):
 
 
 
-@app.route('<int:project_id>/addtask', methods=['GET', 'POST'])
+@app.route('/projet/<int:project_id>/addtask', methods=['GET', 'POST'])
+@is_connected
 def fonction_formulaire_create_task(project_id):
     if request.method == 'POST':
         form_est_valide, errors = formulaire_task_est_valide(flask.request.form)
         if not form_est_valide:
             print("Le formulaire n'est pas valide. Erreurs :", errors)
-            return display_add_project()
+            return display_add_task(project_id)
         else:
             manager_name = session.get('username')
             task_name = request.form.get("task_name")
@@ -213,10 +233,10 @@ def fonction_formulaire_create_task(project_id):
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
             add_task_to_project(project_id, task_name, deadline, manager_name)
-            return redirect(url_for('display_projects'))
+            return redirect(url_for('display_project', project_id=project_id))
     else:
 
-        return display_add_project()
+        return display_add_task(project_id)
 
 
 
@@ -243,12 +263,14 @@ def formulaire_task_est_valide(form):
     return result, errors
 
 @app.route('/delete_project/<int:project_id>', methods=['POST'])
+@is_connected
 def delete_project(project_id):
     delete_project_in_database(project_id)
     return redirect(url_for('display_projects'))
 
 
 @app.route('/edit_project_form/<int:project_id>', methods=['GET', 'POST'])
+@is_connected
 def edit_project_form(project_id):
     project = get_project_by_id(project_id)
     if project:

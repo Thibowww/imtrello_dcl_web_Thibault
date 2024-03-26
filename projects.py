@@ -123,3 +123,4 @@ def get_all_projects_sorted_by_label():
 def search_projects_by_keyword(keyword):
     """Search for projects containing a specific keyword in their label."""
     return Project.query.filter(Project.label.ilike(f'%{keyword}%')).all()
+
