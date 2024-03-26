@@ -3,7 +3,7 @@ from database.database import db
 
 
 # Functions to manage tasks within projects
-def add_task_to_project(project_id,task_name, deadline, is_done=False):
+def add_task_to_project(project_id, task_name, deadline, is_done=False):
     project = Project.query.get(project_id)
     if project:
         new_task = Task(task_name=task_name,deadline=deadline, isDone=is_done, project_id=project_id)
