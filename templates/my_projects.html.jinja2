@@ -42,13 +42,13 @@
 
 
 <br>
-<h1 id="title1"> My PROJECTS</h1>
+<h1 id="title1"> Mes Boards</h1>
 <br>
 
 <form action="{{ url_for("display_add_project") }}" method="get">
     <div class="centre">
         <button class="login-button">
-        Add Project
+        Nouveau projet
         </button>
     </div>
 
@@ -58,7 +58,7 @@
     {% if projects %}
         {% for project in projects %}
             <div class="contour_project">
-                <div class="project">
+                <div class="project carte general-carte">
                     <a href="{{ url_for('display_project', project_id=project.id) }}"><h2>{{ project.project_name }}</h2></a>
                     <p class="description">{{ project.description }}</p>
                     <p class="deadline">Deadline: {{ project.deadline }}</p>
