@@ -28,7 +28,8 @@ html, body {
 }
 
 .general-carte {
-    padding: 25px;
+    padding: 50px;
+    width: fit-content;
 }
 
 
