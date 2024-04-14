@@ -24,13 +24,14 @@ def get_task_by_id(task_id):
     return task
 
 
-def update_task_in_project(task_id, label=None, is_done=None):
+def update_task_in_project(task_id, task_name,
+                                   deadline):
     task = Task.query.get(task_id)
     if task:
-        if label is not None:
-            task.label = label
-        if is_done is not None:
-            task.isDone = is_done
+        if task_name is not None:
+            task.task_name = task_name
+        if deadline is not None:
+            task.deadline = deadline
         db.session.commit()
     return task
 

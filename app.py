@@ -328,9 +328,11 @@ def edit_project_form(project_id):
 
 @app.route('/edit_task_form/<int:task_id>', methods=['GET', 'POST'])
 @is_connected
-def edit_task_form(project_id, task_id):
-    project = get_project_by_id(project_id)
+def edit_task_form(task_id):
+
     task = get_task_by_id(task_id)
+    project_id= task.project_id
+    project = get_project_by_id(project_id)
     if task:
         if request.method == 'POST':
             task_name = request.form.get('task_name')
