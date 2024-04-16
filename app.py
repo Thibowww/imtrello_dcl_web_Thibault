@@ -8,7 +8,7 @@ from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
     delete_project_in_database, add_task_to_project, get_tasks_in_project, get_task_by_id, update_task_in_project, \
-    delete_task_from_project
+    delete_task_from_project, add_comment_to_task, get_comment_in_task
 
 app = Flask(__name__)
 
@@ -59,10 +59,10 @@ def display_projects():
 @is_connected
 def display_task(project_id, task_id):
     task = get_task_by_id(task_id)
-
+    comments=get_comment_in_task(task_id)
     project = get_project_by_id(project_id)
     user = User.query.filter_by(username=session.get('username')).first()
-    return flask.render_template("task.html.jinja2", task=task, project=project, user=user)
+    return flask.render_template("task.html.jinja2", task=task, project=project, user=user, comments=comments)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -358,8 +358,22 @@ def edit_task_form(task_id):
             return render_template('edit_task_form.html.jinja2', project=project, task=task)
     else:
         return jsonify({'error': 'Task not found'}), 404
-
-
+@app.route('/add_comment_form/<int:task_id>', methods=['GET', 'POST'])
+@is_connected
+def add_comment_form(task_id):
+    task = get_task_by_id(task_id)
+    project_id = task.project_id
+    project = get_project_by_id(project_id)
+    if task:
+        if request.method == 'POST':
+            comment = request.form.get('comment_name')
+            add_comment_to_task(comment=comment, task_id=task_id)
+            # Rediriger l'utilisateur vers une page de confirmation ou toute autre page appropriée
+            return redirect(url_for('display_task', project_id=project.id, task_id=task.id))
+        else:
+            return render_template('add_comment.html.jinja2', project=project, task=task)
+    else:
+        return jsonify({'error': 'Task not found'}), 404
 @app.route('/profile', methods=['GET', 'POST'])
 @is_connected
 def profile():

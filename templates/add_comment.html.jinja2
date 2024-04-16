@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/project_details.css') }}">
+<form id="editTaskForm" action="{{ url_for('add_comment_form', task_id=task.id) }}" method="post">
+    <label for="edit_project_name">Commentaire:</label><br>
+    <input type="text" id="edit_task_name" name="comment_name" ><br>
+    <button type="submit">Enregistrer</button>
+</form>

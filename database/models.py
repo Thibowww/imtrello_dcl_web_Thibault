@@ -11,6 +11,11 @@ class Task(db.Model):
     # Define a relationship with the Project model
     project = db.relationship('Project', backref=db.backref('tasks', lazy=True))
 
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'), nullable=False)
+    comment = db.Column(db.Text)
+    task = db.relationship('Task', backref=db.backref('comments', lazy=True))
 
 user_to_project = db.Table('user_to_project',
                            db.Column("project_id", db.Integer, db.ForeignKey('project.id')),

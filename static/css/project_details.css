@@ -7,6 +7,9 @@ body {
     padding: 0;
 }
 
+li{
+    color : white;
+}
 .contour_project {
     display: flex;
     justify-content: center;
@@ -43,7 +46,7 @@ p{
 }
 button {
   background-color: #272D2D;
-  border: none;
+  border: 1px grey;
   color: #edf5fc;
   padding: 15px 32px;
   text-align: center;

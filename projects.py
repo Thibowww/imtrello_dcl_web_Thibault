@@ -1,4 +1,4 @@
-from database.models import Task, Project, User, user_to_project
+from database.models import Task, Project, User, user_to_project, Comment
 from database.database import db
 
 
@@ -12,6 +12,15 @@ def add_task_to_project(project_id, task_name, deadline, is_done=False):
         return new_task
     return None
 
+def add_comment_to_task(task_id, comment):
+    task = Task.query.get(task_id)
+    if task:
+        new_comment = Comment(comment=comment, task_id=task_id)
+        db.session.add(new_comment)
+        db.session.commit()
+        return new_comment
+    return None
+
 
 def get_tasks_in_project(project_id):
     project = Project.query.get(project_id)
@@ -19,6 +28,11 @@ def get_tasks_in_project(project_id):
         return project.tasks
     return []
 
+def get_comment_in_task(task_id):
+    task = Task.query.get(task_id)
+    if task:
+        return task.comments
+    return []
 def get_task_by_id(task_id):
     task = Task.query.get(task_id)
     return task
