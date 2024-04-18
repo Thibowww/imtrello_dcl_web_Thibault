@@ -3,12 +3,13 @@ from functools import wraps
 from datetime import datetime
 import flask
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
+from sqlalchemy import Null
 
 from manage_users import *
 from database.database import db, init_database
 from projects import add_project, update_project, get_all_projects, get_project_by_id, update_project_in_database, \
     delete_project_in_database, add_task_to_project, get_tasks_in_project, get_task_by_id, update_task_in_project, \
-    delete_task_from_project, add_comment_to_task, get_comment_in_task
+    delete_task_from_project, add_comment_to_task, get_comment_in_task, add_notif, get_notif_by_user
 
 app = Flask(__name__)
 
@@ -52,7 +53,8 @@ def is_connected(f):
 @is_connected
 def display_projects():
     projects = get_all_projects(session.get('username'))
-    return flask.render_template("my_projects.html.jinja2", projects=projects)
+    notifs = get_notif_by_user(session.get('username'))
+    return flask.render_template("my_projects.html.jinja2", projects=projects, notifs=notifs)
 
 
 @app.route('/projet/<int:project_id>/<int:task_id>')
@@ -197,7 +199,13 @@ def fonction_formulaire_create_project():
             deadline_time = request.form.get("deadline_time")
             deadline_str = deadline_date + ' ' + deadline_time
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d %H:%M')
-            add_project(project_name, description, deadline, manager_name)
+            new_developers = request.form.get('new_developers')
+            if new_developers != "":
+                users = new_developers.split(',')
+            else:
+                users = None
+            add_project(users, project_name, description, deadline, manager_name)
+
             return redirect(url_for('display_projects'))
     else:
 
@@ -329,7 +337,6 @@ def edit_project_form(project_id):
 @app.route('/edit_task_form/<int:task_id>', methods=['GET', 'POST'])
 @is_connected
 def edit_task_form(task_id):
-
     task = get_task_by_id(task_id)
     project_id= task.project_id
     project = get_project_by_id(project_id)

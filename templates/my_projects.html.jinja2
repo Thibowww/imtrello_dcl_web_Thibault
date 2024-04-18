@@ -47,14 +47,14 @@
 
 <form action="{{ url_for("display_add_project") }}" method="get">
     <div class="centre">
-        <button class="login-button">
+        <button class="button">
         Nouveau projet
         </button>
     </div>
 
 </form>
 
-    <div class="flex-container">
+<div class="flex-container">
     {% if projects %}
         {% for project in projects %}
             <div class="contour_project">
@@ -67,6 +67,16 @@
         {% endfor %}
     {% else %}
         <p>No projects found.</p>
+    {% endif %}
+</div>
+
+<div class="flex-container">
+    {% if notifs %}
+        <ul>
+        {%  for notif in notifs %}
+            <li>{{ notif.message }}</li>
+        {% endfor %}
+        </ul>
     {% endif %}
 </div>
 

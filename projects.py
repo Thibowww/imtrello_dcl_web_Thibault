@@ -1,4 +1,4 @@
-from database.models import Task, Project, User, user_to_project, Comment
+from database.models import Task, Project, User, user_to_project, Comment, Notification
 from database.database import db
 
 
@@ -53,21 +53,38 @@ def update_task_in_project(task_id, task_name,
 def delete_task_from_project(task_id):
     task = Task.query.get(task_id)
     if task:
+        comments = Comment.query.filter_by(task_id=task_id).all()
+        for comment in comments:
+            db.session.delete(comment)
         db.session.delete(task)
         db.session.commit()
     return task
 
 
-def add_project(project_name, description, deadline, manager_name):
+def add_project(developers, project_name, description, deadline, manager_name):
+
     new_project = Project(project_name=project_name, manager=manager_name, description=description, deadline=deadline, isDone=False)
     db.session.add(new_project)
     db.session.commit()
     new_project.users.append(User.query.filter_by(username=manager_name).first())
+    if developers is not None:
+        for user in developers:
+            if User.query.filter_by(username=user).first():
+                new_project.users.append(User.query.filter_by(username=user).first())
     db.session.commit()
+    message = manager_name+" vous a ajouté au projet "+ project_name+""
+    add_notif(developers, message, new_project.id)
     return new_project
 
 
+def add_notif(users, message, project_id):
+    for user in users:
+        new_notif = Notification(username=user, message=message, project_id=project_id)
+        db.session.add(new_notif)
+    db.session.commit()
 
+def get_notif_by_user(username):
+    return Notification.query.filter_by(username=username).all()
 def update_project_in_database(project_id, developers, project_name=None, description=None, deadline=None, is_done=None):
     project = db.session.query(Project).get(project_id)
     if project:
@@ -83,6 +100,8 @@ def update_project_in_database(project_id, developers, project_name=None, descri
             for user in developers:
                 project.users.append(User.query.filter_by(username=user).first())
         db.session.commit()
+        message = project.manager_name + " vous a ajouté au projet " + project_name + ""
+        add_notif(developers, message, project.id)
     return project
 
 
@@ -112,6 +131,10 @@ def delete_project_in_database(project_id):
     """Delete a project by its ID."""
     project = Project.query.get(project_id)
     if project:
+        tasks = Task.query.filter_by(project_id=project_id).all()
+        if tasks :
+            for task in tasks:
+                db.session.delete(task)
         db.session.delete(project)
         db.session.commit()
     return project
