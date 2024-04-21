@@ -47,7 +47,7 @@
 
 <form action="{{ url_for("display_add_project") }}" method="get">
     <div class="centre">
-        <button class="button">
+        <button class="send">
         Nouveau projet
         </button>
     </div>
@@ -70,11 +70,17 @@
     {% endif %}
 </div>
 
-<div class="flex-container">
+<div class="flex-container" style="color:white">
+    <h3 style="padding: 15px 32px;">Notifications</h3>
+    <form action="{{ url_for("marque_comme_lu") }}" method="get">
+        <button class="marque" type="submit">Marqué comme lu</button>
+    </form>
     {% if notifs %}
         <ul>
         {%  for notif in notifs %}
+            {% if notif.lu %}
             <li>{{ notif.message }}</li>
+            {% endif %}
         {% endfor %}
         </ul>
     {% endif %}

@@ -37,7 +37,7 @@ p{
    color: #edf5fc;
 }
 
-button {
+.send {
   background-color: #272D2D;
   border: none;
   color: #edf5fc;
@@ -49,6 +49,16 @@ button {
     border-radius: 8px;
 }
 
+.marque{
+    background-color: #272D2D;
+  border: none;
+  color: #edf5fc;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+    border-radius: 8px;
+}
 .project {
     border-radius: 25px;
     padding: 50px;

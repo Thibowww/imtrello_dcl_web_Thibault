@@ -55,8 +55,15 @@ def display_projects():
     projects = get_all_projects(session.get('username'))
     notifs = get_notif_by_user(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects, notifs=notifs)
-
-
+@app.route('/myprojects')
+@is_connected
+def marque_comme_lu():
+    projects = get_all_projects(session.get('username'))
+    notifs = get_notif_by_user(session.get('username'))
+    for notif in notifs:
+        notif.lu = True
+    db.session.commit()
+    return flask.render_template("my_projects.html.jinja2", projects=projects, notifs=notifs)
 @app.route('/projet/<int:project_id>/<int:task_id>')
 @is_connected
 def display_task(project_id, task_id):

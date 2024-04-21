@@ -9,6 +9,13 @@ def add_task_to_project(project_id, task_name, deadline, is_done=False):
         new_task = Task(task_name=task_name,deadline=deadline, isDone=is_done, project_id=project_id)
         db.session.add(new_task)
         db.session.commit()
+        developers = []
+        for user in project.users:
+            if user.username!= project.manager:
+                developers.append(user.username)
+        message = project.manager + " a ajouté une tâche au projet " + project.project_name + ""
+        if developers is not None:
+            add_notif(developers, message, project.id)
         return new_task
     return None
 
@@ -46,6 +53,14 @@ def update_task_in_project(task_id, task_name,
             task.task_name = task_name
         if deadline is not None:
             task.deadline = deadline
+        project= Project.query.filter_by(id=task.project_id).first()
+        developers = []
+        for user in project.users:
+            if user.username != project.manager:
+                developers.append(user.username)
+        message = project.manager + " a modifier le projet " + project.project_name + ""
+        if developers is not None:
+            add_notif(developers, message, project.id)
         db.session.commit()
     return task
 
@@ -58,6 +73,14 @@ def delete_task_from_project(task_id):
             db.session.delete(comment)
         db.session.delete(task)
         db.session.commit()
+        project = Project.query.filter_by(id=task.project_id).first()
+        developers = []
+        for user in project.users:
+            if user.username != project.manager:
+                developers.append(user.username)
+        message = project.manager + " a supprimé la tache "+task.task_name+" du project " + project.project_name + ""
+        if developers is not None:
+            add_notif(developers, message, project.id)
     return task
 
 
@@ -73,13 +96,14 @@ def add_project(developers, project_name, description, deadline, manager_name):
                 new_project.users.append(User.query.filter_by(username=user).first())
     db.session.commit()
     message = manager_name+" vous a ajouté au projet "+ project_name+""
-    add_notif(developers, message, new_project.id)
+    if developers is not None:
+        add_notif(developers, message, new_project.id)
     return new_project
 
 
 def add_notif(users, message, project_id):
     for user in users:
-        new_notif = Notification(username=user, message=message, project_id=project_id)
+        new_notif = Notification(username=user, message=message, project_id=project_id, lu=False)
         db.session.add(new_notif)
     db.session.commit()
 
@@ -101,7 +125,8 @@ def update_project_in_database(project_id, developers, project_name=None, descri
                 project.users.append(User.query.filter_by(username=user).first())
         db.session.commit()
         message = project.manager_name + " vous a ajouté au projet " + project_name + ""
-        add_notif(developers, message, project.id)
+        if developers is not None:
+            add_notif(developers, message, project.id)
     return project
 
 

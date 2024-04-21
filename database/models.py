@@ -26,6 +26,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Integer)
     message = db.Column(db.String(255))
+    lu = db.Column(db.Boolean)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     project = db.relationship('Project', backref=db.backref('notifs', lazy=True))
 
