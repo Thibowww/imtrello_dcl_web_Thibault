@@ -55,13 +55,17 @@ def display_projects():
     projects = get_all_projects(session.get('username'))
     notifs = get_notif_by_user(session.get('username'))
     return flask.render_template("my_projects.html.jinja2", projects=projects, notifs=notifs)
-@app.route('/myprojects')
+@app.route('/lu', methods=['GET', 'POST'])
 @is_connected
 def marque_comme_lu():
+    print("salut")
     projects = get_all_projects(session.get('username'))
     notifs = get_notif_by_user(session.get('username'))
+    print(notifs)
     for notif in notifs:
-        notif.lu = True
+        print(notif.lu)
+        if notif.lu == False:
+            notif.lu = True
     db.session.commit()
     return flask.render_template("my_projects.html.jinja2", projects=projects, notifs=notifs)
 @app.route('/projet/<int:project_id>/<int:task_id>')
@@ -381,6 +385,7 @@ def add_comment_form(task_id):
     if task:
         if request.method == 'POST':
             comment = request.form.get('comment_name')
+            comment = session.get('username')+" : "+comment
             add_comment_to_task(comment=comment, task_id=task_id)
             # Rediriger l'utilisateur vers une page de confirmation ou toute autre page appropriée
             return redirect(url_for('display_task', project_id=project.id, task_id=task.id))

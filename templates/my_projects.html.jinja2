@@ -78,7 +78,7 @@
     {% if notifs %}
         <ul>
         {%  for notif in notifs %}
-            {% if notif.lu %}
+            {% if notif.lu == false %}
             <li>{{ notif.message }}</li>
             {% endif %}
         {% endfor %}
